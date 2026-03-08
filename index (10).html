@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TeamLink — Teletherapeutics Health Inc.</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0d1b2a;--navy-mid:#162032;--navy-light:#1e2e42;
+  --gold:#c9a84c;--gold-light:#e2c06e;
+  --white:#fff;--gray-100:#f4f6f9;--gray-200:#e2e8f0;
+  --gray-400:#94a3b8;--gray-600:#475569;
+  --green:#22c55e;--green-pale:#dcfce7;
+  --red:#ef4444;--red-pale:#fee2e2;
+  --yellow:#f59e0b;--yellow-pale:#fef3c7;
+  --blue:#3b82f6;--blue-pale:#dbeafe;
+  --orange:#f97316;--orange-pale:#ffedd5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:var(--gray-100);color:var(--navy);min-height:100vh;}
+
+/* NAV */
+.top-nav{background:var(--navy);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:54px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--white);letter-spacing:1px;cursor:pointer;}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:2px;list-style:none;flex-wrap:wrap;}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--gray-400);text-decoration:none;padding:5px 10px;border-radius:4px;transition:all .15s;text-transform:uppercase;cursor:pointer;}
+.nav-links a:hover{color:var(--white);background:var(--navy-light);}
+.nav-links a.active{color:var(--gold);background:var(--navy-light);}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+
+/* HERO */
+.page-hero{background:var(--navy-mid);background-image:radial-gradient(circle at 20% 50%,rgba(201,168,76,.08) 0%,transparent 60%);padding:32px 40px 24px;border-bottom:1px solid var(--navy-light);position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--gold),var(--gold-light));}
+.hero-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:800;color:var(--white);line-height:1;margin-bottom:6px;}
+.hero-subtitle{font-size:13px;color:var(--gray-400);}
+
+/* MAIN */
+.main-content{max-width:1400px;margin:0 auto;padding:28px 36px;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--white);border-radius:10px;padding:18px 20px;border:1px solid var(--gray-200);border-left:4px solid transparent;transition:box-shadow .2s;}
+.stat-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.stat-card.green{border-left-color:var(--green);}
+.stat-card.red{border-left-color:var(--red);}
+.stat-card.yellow{border-left-color:var(--yellow);}
+.stat-card.blue{border-left-color:var(--blue);}
+.stat-card.orange{border-left-color:var(--orange);}
+.stat-icon{font-size:20px;margin-bottom:8px;}
+.stat-number{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;line-height:1;margin-bottom:3px;}
+.stat-card.green .stat-number{color:#16a34a;}
+.stat-card.red .stat-number{color:var(--red);}
+.stat-card.yellow .stat-number{color:#d97706;}
+.stat-card.blue .stat-number{color:var(--blue);}
+.stat-card.orange .stat-number{color:var(--orange);}
+.stat-label{font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.5px;}
+
+/* FILTERS */
+.filters-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end;}
+.filter-group{display:flex;flex-direction:column;gap:4px;}
+.filter-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gray-400);text-transform:uppercase;}
+.filter-select,.search-input{padding:8px 12px;border:1px solid var(--gray-200);border-radius:6px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--navy);background:var(--white);outline:none;transition:border-color .15s;}
+.filter-select:focus,.search-input:focus{border-color:var(--gold);}
+.search-input{min-width:220px;}
+.results-badge span{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--gray-400);font-weight:600;}
+
+/* STATE TABS */
+.state-tabs-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;}
+.state-tab{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;padding:5px 13px;border-radius:4px;border:1px solid var(--gray-200);background:var(--white);color:var(--gray-600);cursor:pointer;transition:all .15s;text-transform:uppercase;}
+.state-tab:hover{border-color:var(--gold);color:var(--navy);}
+.state-tab.active{background:var(--navy);border-color:var(--navy);color:var(--gold);}
+
+/* DASHBOARD GRID */
+.dash-grid{display:grid;grid-template-columns:1fr 280px;gap:20px;}
+
+/* PANEL */
+.panel{background:var(--white);border-radius:10px;border:1px solid var(--gray-200);overflow:hidden;}
+.panel-header{padding:12px 18px;border-bottom:1px solid var(--gray-200);background:var(--gray-100);}
+.panel-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--navy);text-transform:uppercase;}
+
+/* TABLE */
+.cred-table{width:100%;border-collapse:collapse;}
+.cred-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-400);padding:9px 14px;text-align:left;border-bottom:1px solid var(--gray-200);background:var(--gray-100);cursor:pointer;user-select:none;white-space:nowrap;}
+.cred-table th:hover{color:var(--navy);}
+.cred-table td{padding:9px 14px;font-size:13px;border-bottom:1px solid var(--gray-200);vertical-align:middle;}
+.cred-table tr:last-child td{border-bottom:none;}
+.cred-table tr:hover td{background:#f8fafc;}
+.payer-name{font-weight:600;color:var(--navy);}
+.meta-text{font-size:11px;color:var(--gray-400);}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+.badge-green{background:var(--green-pale);color:#15803d;}
+.badge-green::before{background:var(--green);}
+.badge-red{background:var(--red-pale);color:#b91c1c;}
+.badge-red::before{background:var(--red);}
+.badge-yellow{background:var(--yellow-pale);color:#92400e;}
+.badge-yellow::before{background:var(--yellow);}
+.badge-blue{background:var(--blue-pale);color:#1d4ed8;}
+.badge-blue::before{background:var(--blue);}
+.badge-orange{background:var(--orange-pale);color:#c2410c;}
+.badge-orange::before{background:var(--orange);}
+
+/* SIDEBAR */
+.legend{display:flex;flex-direction:column;gap:7px;}
+.legend-item{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+.legend-dot{width:9px;height:9px;border-radius:50%;margin-right:7px;flex-shrink:0;}
+.legend-name{color:var(--gray-600);display:flex;align-items:center;}
+.legend-count{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--navy);}
+
+/* MAPS */
+.map-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:20px;}
+.map-variable-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+.map-var-btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;padding:6px 16px;border-radius:20px;border:2px solid var(--gray-200);background:var(--white);color:var(--gray-600);cursor:pointer;transition:all .15s;text-transform:uppercase;}
+.map-var-btn:hover{border-color:var(--gold);color:var(--navy);}
+.map-var-btn.active{background:var(--navy);border-color:var(--navy);color:var(--gold);}
+.map-layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;}
+.map-svg-wrap{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);padding:20px;position:relative;}
+.map-svg-wrap svg{width:100%;height:auto;display:block;}
+.state-path{cursor:pointer;transition:opacity .15s;stroke:#fff;stroke-width:0.5;}
+.state-path:hover{opacity:.75;stroke-width:1.5;}
+.map-tooltip{position:absolute;background:var(--navy);color:var(--white);padding:10px 14px;border-radius:8px;font-size:12px;pointer-events:none;display:none;z-index:200;border:1px solid var(--gold);min-width:160px;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.map-tooltip strong{font-family:'Barlow Condensed',sans-serif;font-size:15px;display:block;margin-bottom:4px;color:var(--gold);}
+.map-legend-card{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);padding:20px;}
+.map-legend-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--navy);text-transform:uppercase;margin-bottom:14px;border-bottom:1px solid var(--gray-200);padding-bottom:8px;}
+.map-legend-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f4f6f9;font-size:12px;}
+.map-legend-item:last-child{border-bottom:none;}
+.map-legend-swatch{width:12px;height:12px;border-radius:3px;margin-right:8px;flex-shrink:0;}
+.map-state-list{margin-top:16px;}
+.map-state-list-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gray-400);text-transform:uppercase;margin-bottom:8px;}
+.map-state-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f4f6f9;font-size:12px;cursor:pointer;}
+.map-state-row:hover{background:#f8fafc;margin:0 -8px;padding:5px 8px;}
+.no-data-state{fill:#e2e8f0;}
+.role-bar{display:flex;gap:8px;margin-bottom:16px;align-items:center;}
+.role-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gray-400);text-transform:uppercase;}
+.role-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:4px 12px;border-radius:4px;border:1px solid var(--gray-200);background:var(--white);color:var(--gray-600);cursor:pointer;transition:all .15s;}
+.role-btn.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+
+/* HOME */
+.home-hero{background:var(--navy-mid);padding:48px 40px;border-bottom:1px solid var(--navy-light);position:relative;overflow:hidden;}
+.home-hero::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--gold),var(--gold-light));}
+.home-welcome{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.home-title{font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:800;color:var(--white);line-height:1;margin-bottom:10px;}
+.home-subtitle{font-size:15px;color:var(--gray-400);max-width:520px;line-height:1.5;}
+.home-brands{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.brand-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold-light);letter-spacing:.5px;}
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px;}
+.home-card{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);padding:26px;cursor:pointer;transition:all .2s;border-top:4px solid var(--gold);}
+.home-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px);}
+.home-card-icon{font-size:30px;margin-bottom:12px;}
+.home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.home-card-desc{font-size:13px;color:var(--gray-600);line-height:1.5;}
+.home-stats{display:flex;gap:24px;margin-top:24px;}
+.home-stat{text-align:center;}
+.home-stat .n{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--gold);}
+.home-stat .l{font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+
+/* FOOTER */
+.page-footer{background:var(--navy);color:var(--gray-400);text-align:center;padding:14px;font-size:12px;border-top:3px solid var(--gold);margin-top:40px;}
+.page-footer span{color:var(--gold);font-weight:600;}
+
+.no-results{text-align:center;padding:40px;color:var(--gray-400);}
+
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,1fr);}.dash-grid{grid-template-columns:1fr;}.home-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.home-grid{grid-template-columns:1fr;}.stats-grid{grid-template-columns:repeat(2,1fr);}.top-nav{flex-direction:column;height:auto;padding:10px;}}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-logo" onclick="showPage('home')">TEAM<span>LINK</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('credentialing')" id="nav-credentialing">Credentialing</a></li>
+    <li><a onclick="showPage('maps')" id="nav-maps">Coverage Maps</a></li>
+    <li><a onclick="showPage('regulatory')" id="nav-regulatory">Regulatory Maps</a></li>
+    <li><a onclick="showPage('orgchart')" id="nav-orgchart">Org Chart</a></li>
+    <li><a onclick="showPage('directory')" id="nav-directory">Staff Directory</a></li>
+    <li><a onclick="showPage('handbook')" id="nav-handbook">Employee Handbook</a></li>
+    <li><a onclick="showPage('vision')" id="nav-vision">Vision 2026</a></li>
+    <li><a onclick="showPage('sca')" id="nav-sca">SCA</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="home-welcome">Teletherapeutics Health Inc. · Internal Portal</div>
+    <div class="home-title">TeamLink</div>
+    <div class="home-subtitle">Your centralized hub for operations, credentialing, staff resources, and brand tools.</div>
+    <div class="home-brands">
+      <div class="brand-pill">Teletherapeutics Health</div>
+      <div class="brand-pill">Well-America</div>
+      <div class="brand-pill">Therapy Central</div>
+      <div class="brand-pill">Hamilton Behavioral</div>
+    </div>
+    <div class="home-stats">
+      <div class="home-stat"><div class="n">1,159</div><div class="l">Payer Records</div></div>
+      <div class="home-stat"><div class="n">29</div><div class="l">States</div></div>
+      <div class="home-stat"><div class="n">3</div><div class="l">Brands</div></div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="home-grid">
+      <div class="home-card" onclick="showPage('credentialing')">
+        <div class="home-card-icon">📋</div>
+        <div class="home-card-title">Credentialing Dashboard</div>
+        <div class="home-card-desc">Real-time payer network status across 29 states and 3 brands. Search, filter, and track 1,159 payer records.</div>
+      </div>
+      <div class="home-card" onclick="showPage('maps')">
+        <div class="home-card-icon">🗺️</div>
+        <div class="home-card-title">Coverage Maps</div>
+        <div class="home-card-desc">Interactive US state maps showing payer network rates, pending applications, and brand coverage across 29 states.</div>
+      </div>
+      <div class="home-card">
+        <div class="home-card-icon">📁</div>
+        <div class="home-card-title">Org Chart</div>
+        <div class="home-card-desc">Company structure, reporting lines, and team hierarchy across all brands.</div>
+      </div>
+      <div class="home-card">
+        <div class="home-card-icon">👥</div>
+        <div class="home-card-title">Staff Directory</div>
+        <div class="home-card-desc">Find contact info for all providers and staff across all brands.</div>
+      </div>
+      <div class="home-card">
+        <div class="home-card-icon">📅</div>
+        <div class="home-card-title">Calendar</div>
+        <div class="home-card-desc">Team events, holidays, and important dates.</div>
+      </div>
+      <div class="home-card">
+        <div class="home-card-icon">📖</div>
+        <div class="home-card-title">Employee Handbook</div>
+        <div class="home-card-desc">Policies, procedures, and everything you need to know.</div>
+      </div>
+      <div class="home-card" onclick="showPage('vision')">
+        <div class="home-card-icon">🗺️</div>
+        <div class="home-card-title">Vision 2026</div>
+        <div class="home-card-desc">Our growth roadmap and coverage expansion goals across the US.</div>
+      </div>
+      <div class="home-card" onclick="showPage('sca')">
+        <div class="home-card-icon">⚖️</div>
+        <div class="home-card-title">Single Case Agreements</div>
+        <div class="home-card-desc">State-by-state timely access laws, statutes, and complaint portals to secure out-of-network approvals at in-network rates.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDENTIALING -->
+<div class="page" id="page-credentialing">
+  <div class="page-hero">
+    <div class="hero-label">Teletherapeutics Health Inc. · Insurance Operations</div>
+    <div class="hero-title">Credentialing Dashboard</div>
+    <div class="hero-subtitle">1,159 payer records · 26 states · 3 brands · Updated March 2026</div>
+  </div>
+  <div class="main-content">
+
+    <div class="stats-grid">
+      <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-number" id="cnt-inn">—</div><div class="stat-label">In-Network</div></div>
+      <div class="stat-card red"><div class="stat-icon">🚫</div><div class="stat-number" id="cnt-denied">—</div><div class="stat-label">REQ Denied</div></div>
+      <div class="stat-card yellow"><div class="stat-icon">⏳</div><div class="stat-number" id="cnt-pending">—</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card blue"><div class="stat-icon">🔄</div><div class="stat-number" id="cnt-process">—</div><div class="stat-label">In-Process</div></div>
+      <div class="stat-card orange"><div class="stat-icon">🔕</div><div class="stat-number" id="cnt-oon">—</div><div class="stat-label">Out-of-Network</div></div>
+    </div>
+
+    <!-- STATE TABS -->
+    <div class="state-tabs-wrap" id="stateTabs"></div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <div class="filter-group">
+        <div class="filter-label">Search Payer</div>
+        <input class="search-input" id="searchInput" type="text" placeholder="Type payer name…" oninput="applyFilters()"/>
+      </div>
+      <div class="filter-group">
+        <div class="filter-label">Status</div>
+        <select class="filter-select" id="statusFilter" onchange="applyFilters()">
+          <option value="">All Statuses</option>
+          <option>In-Network</option>
+          <option>REQ Denied</option>
+          <option>Pending</option>
+          <option>In-Process</option>
+          <option>Out of Network</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <div class="filter-label">Brand</div>
+        <select class="filter-select" id="brandFilter" onchange="applyFilters()">
+          <option value="">All Brands</option>
+          <option>Teletherapeutics</option>
+          <option>Well-America</option>
+          <option>Therapy Central</option>
+        </select>
+      </div>
+      <div class="filter-group results-badge">
+        <div class="filter-label">&nbsp;</div>
+        <span id="resultsCount" style="font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--gray-400);font-weight:600;padding:8px 0;">—</span>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <div style="overflow-x:auto;max-height:580px;overflow-y:auto;">
+          <table class="cred-table">
+            <thead>
+              <tr>
+                <th onclick="sortBy('payer')">Payer ↕</th>
+                <th onclick="sortBy('brand')">Brand ↕</th>
+                <th onclick="sortBy('state')">State ↕</th>
+                <th onclick="sortBy('status')">Status ↕</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Status Breakdown</div></div>
+          <div style="padding:16px;">
+            <svg width="100%" viewBox="0 0 200 200" id="donutSvg" style="display:block;max-width:200px;margin:0 auto 16px;"></svg>
+            <div class="legend" id="donutLegend"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">By Brand</div></div>
+          <div style="padding:16px;" id="brandBreakdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAPS PAGE -->
+<div class="page" id="page-maps">
+  <div class="page-hero">
+    <div class="hero-label">Teletherapeutics Health Inc. · Geographic Intelligence</div>
+    <div class="hero-title">Coverage Maps</div>
+    <div class="hero-subtitle">Interactive state-level view of payer network, credentialing status, and brand coverage</div>
+  </div>
+  <div class="main-content">
+
+    <!-- Role Access Bar -->
+    <div class="role-bar">
+      <span class="role-label">View As:</span>
+      <button class="role-btn active" onclick="setRole('admin',this)">Admin</button>
+      <button class="role-btn" onclick="setRole('credentialing',this)">Credentialing</button>
+      <button class="role-btn" onclick="setRole('billing',this)">Billing</button>
+      <button class="role-btn" onclick="setRole('readonly',this)">Read Only</button>
+    </div>
+
+    <!-- Variable Tabs -->
+    <div class="map-variable-tabs">
+      <button class="map-var-btn active" onclick="setMapVar('inn_rate',this)">✅ In-Network Rate</button>
+      <button class="map-var-btn" onclick="setMapVar('payer_count',this)">📋 Payer Count</button>
+      <button class="map-var-btn" onclick="setMapVar('pending_count',this)">⏳ Pending</button>
+      <button class="map-var-btn" onclick="setMapVar('denied_count',this)">🚫 Denied</button>
+      <button class="map-var-btn admin-only" onclick="setMapVar('brand_spread',this)">🏢 Brand Coverage</button>
+    </div>
+
+    <!-- Brand Filter -->
+    <div class="map-controls">
+      <div class="filter-group">
+        <div class="filter-label">Brand</div>
+        <select class="filter-select" id="mapBrandFilter" onchange="renderMap()">
+          <option value="">All Brands</option>
+          <option>Teletherapeutics</option>
+          <option>Well-America</option>
+          <option>Therapy Central</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <div class="filter-label">Highlight State</div>
+        <select class="filter-select" id="mapStateJump" onchange="jumpToState(this.value)">
+          <option value="">— Select State —</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="map-layout">
+      <!-- SVG Map -->
+      <div class="map-svg-wrap" id="mapWrap">
+        <div class="map-tooltip" id="mapTooltip"></div>
+        <svg id="usSvg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <!-- Legend + State List -->
+      <div>
+        <div class="map-legend-card">
+          <div class="map-legend-title" id="legendTitle">In-Network Rate</div>
+          <div id="legendItems"></div>
+          <div class="map-state-list">
+            <div class="map-state-list-title">States Active</div>
+            <div id="stateListItems"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <span>Teletherapeutics Health Inc.</span> · TeamLink Intranet · Confidential · Updated March 2026
+</div>
+
+<script>
+const CRED_DATA = [{"brand": "Teletherapeutics", "state": "CA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Alignment Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Allied", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Astrana Care Partner (IPA)", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Blue Shield of California - Blue Card", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Blue Shield of California - California Covid Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Blue Shield of California", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Blue Shield of California - Federal Employee Program", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Blue Shield of California - Promise Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "California Health & Wellness", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "According to Rep: Casandra   Ref# A141031625", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "CAMPVA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "The ID.me account has been recovery. Waiting for the application access.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-Beacon - Health Option", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-Beacon Califonia Commercial Exchange", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-EmblemHealth", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-GHI Commercial", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-Military OneSource", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-NY Empire Plan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-providence Plan Partner", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-Scan Medicare Advantage", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Carelon-Unicare commercial", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Central CA alliance for Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Cigna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Email sent with state License.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Newly Plan added.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Cigna - TPA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Cigna - OAP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Cigna - POS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Contra Costa Health Plan", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Father & Familiess of San Joaquin", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "San Francisco Health Plan", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Net", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Net - Marketplace", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Plan of Saan Joaquin", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Plan of San Francisco", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Plan of San Mateo", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Health Plan of Santa Clara", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Follow up email sent for verify participation status.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - Gold Choice Netwok PFFS26", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - Gold Choice Network", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - Gold Plus HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - Gold Plus HMO 26", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - Humana Honor", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - National Mediacare HMO-SNP-travel", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - National Medicare HMO-SNP-travel26", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Humana - PFFS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "IEHP - Covered CA", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "IEHP", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "IEHP - Open Access Only", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Imperial Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Unfortunately", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "International Plan UHC", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "The plan does not covered under the Behavorial Health. It is a Medical Plan.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Kaiser Permanente", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "La Care", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Magellan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "We receive a Recredentialing Date.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Magellan - 100 Summit  Non HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Magellan - 301 Pinnacle HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Magellan - 378 Pinncle California Only", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Magellan - 41 Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Medi Cal", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "He is not responding to us.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "He has never been hired by us.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Molina HealthCare", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "A letter of interest and W9 has been sent to join the network.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "We are not currently accepting new providers. Panel Closed.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Molina Medi-Connect - Dual Eligible", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "After received a CAQH PLI. State lisence we can apply through the wesbite.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Docsign submitted. Nomination Tracking Number: 111924HAJ", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Optum", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Please check back to continue with your request to join the Optum network.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Optum - Oscar Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "According to Rep Zen Ref# service-13957577", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Optum - UBH General", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Pan American Life Insurance", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Turn on screen reader support", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Partnership Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "They aren't giving service in LOS ANGELES", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Scan Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Turn on screen reader support.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Sutter Health Plus", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Currently", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare For Life", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Email sent to verify the contracting status", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Once the group get contracted we need to link the provider under the tax id", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Prime", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Prime Option-US Family Healthcare Plan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Prime Overseas", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Prime Remote", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Prime Remote Overseas", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Reserve Select", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Retirement Reserve", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Select", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Select Overseas", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare West", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare West - Tricare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare West - VA Community Care", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Email sent to verify the contracting status.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Tricare Young Adult", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Valley Health Plan", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "CA", "payer": "Western Health Plan", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Amerigroup (Wellpoint Medicaid Network)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "BCBS Federal Employee Program", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "According to rep we need to apply throug Premera Blue Cross.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "According to rep we need to apply throug Premera Blue Cross", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Carelon", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Carelon - Providence Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "CHAMPVA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "(VCOM-972781)", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna EAP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Re credentialing Effective Date: 06/03/2028", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna Medicare (Health Spring)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna POS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna PPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Cigna TPA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Community Health Plan WA (Mediaid)", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Once group is contracted then i can add our provider under our tax ID.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "(Apple Care/Ambetter)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Online request submitted. But we received a response on 10/18/2024", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Follow up email sent for verify network participation status.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "First Choice Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Email sent for verify participation status.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Humana", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Need to submite LOI with W9.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Kaiser Permanente", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Email sent for verify network status.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Magellan", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "The application has been submit to add the provider under the group.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "You have been assigned application #: 20250328099962", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Deactivation Reason:  NO CLAIMS SUBMITTED IN THE SPECIFIC PERIOD OF TIME", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Web Tracking ID: T032620250006491", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Molina Healthcare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Apple health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Re-Credentaling Date:  02/29/2028", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "INN with marketplace        we need to send LOI an email to add molina medicaid", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "INN    Molina medicaid and marketplace", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Molina Healthcare - Marketplace", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum - UHC PPO Commercial", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Credentaling Date: 02/11/2025", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Provider add to group roster application is in process.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health - DSNP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Credentaling Date: 02/13/2025", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health - UBH General", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health - WA Apple Health Expansion", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Credentaling Date: 06/01/2025", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health - WA Exchange", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Optum Health - WA Integrated Managed Care Medicaid", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Pacific Source", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "The request has been denied due to DEA WA not provided on time.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "The request has been denied due to admit hospital plan not provided on time.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Premera - Lifewise of WA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Email ha been sent with required documents.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Email sent for verifying Participation status.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Premera - Blue Cross Comercial", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Regence - Asuris Northwest Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Submitted CAQH notification form online.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Regence Blueshield", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Tricare West - Prime Select", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Tricare & triwest VA CCN.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Tricare West - Reserve Retiries", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Tricare West - Young Adult", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Triwest - VA CCN", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "USFHP", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Wellcare - HNN", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Wellcare - WAR", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Wellcare - QLR", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "WA", "payer": "Wellcare - PNN", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Aetna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Ms Lisa: Darrell Youngblood is not answering my calls.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "BCBS - Regence", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "They didn't accept group contracts.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Carelon", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "CHAMPVA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "(VCOM-972782)", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "CHUBB", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Email: misty.coffield@chubb.com", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Cigna - EPA", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Cigna", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Cigna - Open Access Plus", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Cigna - POS", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "HealthSherpa", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Molina Healthcare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "When my group is in network after that we can add the provider to our group.", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Optum - UBH General", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "PEHP", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "I tried calling", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Select Health", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "Tricare West", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "UT", "payer": "University of Utah Health Plans", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "AETNA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "AETNA - Premier Care Network", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Ambetter", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Anthem - BCBS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Carelon manages anthem provider credentialing in this state.", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Beacon", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Becon is carelon.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Buckeye Health Plan", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Ambetter Providers her services through Buckeye Health Plan.", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Care Source", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Carelon - Beacon", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Centene", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "This insurane provider credentialing is manage through Buckeye Health Plan.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CHAMPVA", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CIGNA", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CIGNA - OAP", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CIGNA - POS", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Devoted Health Care", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CIGNA - Health Spring (Medicare)", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Humana", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Group is INN.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Kaiser Permanente", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Magellan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Medical Mutual of Ohio (MMO)", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "When I called the insurance company", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "First we need to get contracted our individual provider.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Medicare", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Web Tracking ID: T092420250007657", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Web Tracking ID: T092420250007729", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Medicare RailRoad", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "pending sue to Medicare.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Molina Health care", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Ohio Healthy Plan", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "I attempted to call the provided number", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - OH Exchange", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "CCF-0000248709.", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - Oscar Health", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - Oscar small group plan", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - OH DSNP", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Newly added plan.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - OH MME", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - MyCare", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Optum - UBH General", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Paramount Advantage", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Unfortunately", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "PrimeTime Health", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Wellcare", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Wellcare Does not provide credentialing & contracting services in ohio.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Ameri-Health-Caritas", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Email: providerrecruitmentoh@amerihealthcaritas.com", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Ohio Rise", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Aetna Better Health is Ohio Rise.", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Many Gold", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "My Care", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Suma MMA Consumer", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "SummaCare is available only", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Humana - Horizons", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Aetna Better Health of Ohio", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "THP Medicare - MediGold", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "SummaCare", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "I did tried to do a call but only voice mail receorded option available.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Antidote Health Plan of Ohio", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "OH", "payer": "Email: providers@antidotehealth.com", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Aetna", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Ambetter", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Ambetter handel by Western Sky Community Care in NM.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - Blue Advantage", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - Blue Community HMO Network (CNN)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - Exclusive Provider Network (EPN)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - FEP Mental Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - NM Blue Preferred (NLP)", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - PAR", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "BCBS - POS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Carelon - Beacon", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Centene", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Cigna", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Cigna - OAP", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Cigna - POS", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Cofinity", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Devoted Health", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Elevance Health", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "HCSC", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Health SCOPE", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Kaiser Permanente", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "They don't provide services in New Mexico.", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Magellan", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Medicaid", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Medicare", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Medicare RailRoad", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Molina Health Care", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Multiplan", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Once our group is contracted", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Optum", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Optum - New Mexico DSNP", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Optum - New Mexico Exchange", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Optum - UBH General", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Presbyterian Healthcare Services", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Prime West Health", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Tricare West", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Tricare VA CCN", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Wellcare", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "NM", "payer": "Western Sky Community Care", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Ms Lisa: Darrell Youngblood is not answering my calls.", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "CAQH Logins are pending.", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Ambetter from Superior HealthPlan", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Amerigroup - Wellpoint", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "I tried calling", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Case number 19081410", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan - BSW Plus HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan - BSW plus PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan - BSW Premiere HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan - Employee Network 21", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Baylor Scott & White Health Plan - Employer Plan Tier 1", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Blue Advantage HMO", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Blue Essentials HMO", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Blue High Performance Network", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Blue Premier", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - BlueChoice POS Behavioral Health", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Dual Eligible Special Needs Plan", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Health Select", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - MyBlue Health", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "BCBS - Well Central HMO", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Carelon - Beacon Health Options", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Carelon - Anthem Texas commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Newly added plan.", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "CHAMPVA", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "(VCOM-972783)", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Cigna - OAP", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Cigna - POS", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Community Health Choice", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Devoted Health Care", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Friday Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Friday Health Plan is no longer operating in Texas.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Human Nation POS - Open Access", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Rep stated that our group is INN.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Email: behavioralhealthdocuments@humana.com", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Humana", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Austin HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Behavioral Health", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Choice Care Network PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Choice POS", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Employer HMO Austin", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Gold Choice Network PFFS", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Gold Plus HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Medicare HMO-SNP", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Medicare PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana National EPO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Preferred PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Humana Premier", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Imperial Health Plan - ACA", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Telehealth is currently closed in all states.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Imperial Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Integrated Health System Plan", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Email: NetworkInquiries@MagellanHealth.com", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Magellan - Blue Cross Texas", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Magellan - Pinnacle HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Magellan - Summit Non HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Once the group application is approved. Then I will submit the provider.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "DEA TX", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare -  Chaip Children Health", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Pending Medicaid", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare -  Texas Medicaid Secondly", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare - Chaip Perinate", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare - Marketplace", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare - RSA", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare - Star Plus", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Molina Healthcare - Texas access DCNP Secondly", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Optum Health", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "They required 5 providers fully credentialed for group contract.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Provider added in Optum Directory", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Optum Health - Oscar Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Optum Health - TX DSNP", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Optum Health - TX Exchange", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Optum Health - UBH General", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Sun Shine Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Sun Shine Health Plan doesn't operate in Texas.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Superior Health Plan - Ambetter", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Request pending due to provider's medicaid.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Request pending due to Medicaid.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Tricare West", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Case Number: 19371968", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Wellcare - HNN National", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Wellcare does not work with groups", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Wellcare - PNN National", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Wellcare - Texas Medicaid", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Provider's information and documents are pending.", "status": "In-Process"}, {"brand": "Well-America", "state": "TX", "payer": "Wellcare - Texas Medicare", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Wellmed", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Panal Closed. Email sent to verify about the new enrollment.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Panel is Closed.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "TX", "payer": "Celtic", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "They are provided credentialing services through Ambetter not directly.", "status": "Pending"}, {"brand": "Well-America", "state": "TX", "payer": "Sendero", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Aetna Better Health", "status": "In-Process"}, {"brand": "Well-America", "state": "PA", "payer": "OON. Pending Due to Medicaid.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Ambetter (PA Health & Wellness)", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "CAQH logins pending", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Email sent with required documents.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Amerihealth PA", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Amerihealth PA - Healthcare Toss", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Amerihealth PA - VIP Care", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Capital of Blue Cross - CareConnect", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Capital of Blue Cross", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Capital of Blue Cross - Point-of-Service", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Capital of Blue Cross - Traditional/PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Independence administrator", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Request denied due to panel is closed.", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Independence Personal Choice 65 PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "BCBS - Independence Personal Choice PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "CHAMPVA", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "(VCOM-972786)", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Cigna", "status": "In-Process"}, {"brand": "Well-America", "state": "PA", "payer": "Geisinger - GH Medicare and Medicaid Gold", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Health Partner", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 106 Community Blue", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "New plan has added.", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "add new plan in the list and applied for it.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2090 My Le-high Valley Flex Blue HMO Enhanced", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2091 Le-high Valley Flex Blue Enhanced Nepa Small Group", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2114 Choice Blue Enhanced", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2127 Perfromance Flex Blue Enhance", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2130 Performance Blue", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2133 PA State Wide Base Network", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2138 Together Blue", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 215 Community Blue Medicare HMO North Central", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2158 PA National Performance Blue", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2170 PA CHIP", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2179 Together Blue Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2185 Complete Blue Plus EPA", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 2186 Complete Blue EPA", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 328 Keystone Health Plan West", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 442 Community Blue Flex PMHA Enhanced", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 650 Medicare Advantage Central", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8016 ACA Select", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8018 PremierBlue Shield", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8024 Community Blue Medicare Plus PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8025 Coumunity Blue Medicare PPO North Central", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8029 Community Blue Choice Enhance", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 8030 Community Blue Select Enhance", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - 88 Community Blue Flex Enhanced", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - FLIPC EPO and Custom PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Highmark BCBS - Traditional Indemnity Participating", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Humana", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Jefferson Health Plans", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Keystone 65 Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "They aren't offering contract at this time for our request.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Keystone First PA", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Keystone First VIP Choice", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Luminare Health", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan Healthcare", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Also sent email as per instruction of rep.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Summit NON HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Employee EAP", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Non HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Employed Managed Care", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - IBC 65 Personal Choice", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - IBC personal choice", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - IBC Keystone 65", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Amira Health", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - IBC Keystone HMO POS", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - Pinnacle HMO Employees", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Magellan - IBC Chip", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Password: Hello@2025", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Revalidation Date:    03/07/2030", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Click Okay to close this window.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Revalidation Date:    03/06/2030", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "PECOS login Information is Pending.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "LSW is not eligible to enrolled with Medicare.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Medico Insurance", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Mental Health Consultant", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Meritain - Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Molina Health care", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Not providing services in the state of PA.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Optum - Oscar Circle Plus", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "They required 10 provider for group contract.", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum - Oscar Small Group", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health - Mamsi One Net PPO", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health - Mamsi Worker Compensation", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health - Oscar Health", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health - PA DSNP", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Optum Health - UBH General", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "PA Health and Wellness", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "CAQH login pending", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Quest Behavioral Health", "status": "Pending"}, {"brand": "Well-America", "state": "PA", "payer": "Thank you! Your response has been submitted.", "status": "In-Network"}, {"brand": "Well-America", "state": "PA", "payer": "Not accepting for LSW.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "Trustmark Insurance", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "UPMC (University of Pittsburgh Medical Center)", "status": "Out of Network"}, {"brand": "Well-America", "state": "PA", "payer": "Wellcare", "status": "REQ Denied"}, {"brand": "Well-America", "state": "PA", "payer": "In PA Wellcare work as PA Health and Wellness.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Online application is pending due to CAQH and State License.", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Aetna - Meritain", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Ambetter", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Solution Plans: Effective from 01/01/2025", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - Blue Choice Options", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - Blue Choice PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - Blue Choice Preferred", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - Blue Cross Community Health Plans", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - Blue High Performance", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - MMAI", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "BCBS - TNF", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Bright Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "I tried calling the insurance company", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Gold Coast Health Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Ccah Medical", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Beacon Health Options Inc Medicaid Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Uniqure  care Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Beacon Health Options  Medicare Advantage", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Health Options of California Inc", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - GSN Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon -  LA Care Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Providence Plan Partners Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Ccah Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Ccah  Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - San Francisco", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - HP Medical", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Beacon Health Option Inc", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Partnership Health Plan of California", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - Goldcoast Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Carelon - LA care commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Celtic", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Centene", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Medcare Advantage Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Cigna EAP", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Cigna HMO", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Cigna Medicare", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Cigna POS", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Cigna PPO", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "CVS Health/Aetna Better Health of Illinois", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "I have tried three times to reach the Provider Relations department by phone", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "HCSC", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Health Alliance", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Email sent with provider roster and W9 form.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Magellan - 401 Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Magellan - Pinnacle HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Medicaid", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Impact Portal is created but identity verification is pending.", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Web Tracking ID: T052220250006488", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "PECOS Login Information is required.", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "NPI :        1033852603", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "NPI :        1063927291", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Meridian Medicare and Medicaid Plan", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Molina Healthcare of Illinois", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "Optum - Illinois Excahnge", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Need 5 fully credentialed providers for group contract", "status": "In-Network"}, {"brand": "Well-America", "state": "IL", "payer": "Optum", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Optum - Oscar Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Optum - UBH General", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IL", "payer": "Tricare West", "status": "In-Process"}, {"brand": "Well-America", "state": "IL", "payer": "Union Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "IL", "payer": "I have recorded the voice message to their contracting department.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Aetna", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "They required 3 providers for group contract.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "BCBS MA", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Once any provider linked to the Group", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "The PA Contracting Application has been submitted to join the network.", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Carelon - Beacon", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Cigna", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "They required 4 providers for group contract.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Cigna - OAP", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Cigna - POS", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Elevance Health", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Fallon Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Harvard Pilgram", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Health Alliance", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MA", "payer": "There is no insurance by this name that exists in the state of Massachusetts.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Health New England", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MA", "payer": "Kaiser Permanente", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MA", "payer": "This insurance does not exist in the state of Massachusetts.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Magellan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MA", "payer": "Medicaid", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Need to apply https://www.mass.gov/new-masshealth-providers", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Medicare", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MA", "payer": "Medicare RailRoad", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Meritain Health", "status": "Out of Network"}, {"brand": "Well-America", "state": "MA", "payer": "Molina Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Optum - UBH General", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "They required 10 providers for group contract.", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Tufts", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "Tufts - Public", "status": "Pending"}, {"brand": "Well-America", "state": "MA", "payer": "WellSense Health Plan (formerly NHP)", "status": "Out of Network"}, {"brand": "Well-America", "state": "MN", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "Alina Healthcare - Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "I was trying to get the participation status from a representative", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "BluePlus/Blue Cross Blue Shield of Minnesota", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Carelon", "status": "Out of Network"}, {"brand": "Well-America", "state": "MN", "payer": "Centra Care Health", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "I am trying to contact the credentialing department", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Cigna", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "They need 4 contracted providers.", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "State license has been sent.", "status": "In-Process"}, {"brand": "Well-America", "state": "MN", "payer": "Cigna - Open Access plus", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Health Alliance", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Insuance dosen't provide crdentialing services in this state.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "HealthPartners", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "When the representative answered the call", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Hennepin Health", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "humana", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Group is OON", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Magellan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Mayo Clinic Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "They are not providing credntialing services.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Medicaid", "status": "Out of Network"}, {"brand": "Well-America", "state": "MN", "payer": "**Applied for Medicaid portal.", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "Medicare RailRoad", "status": "In-Process"}, {"brand": "Well-America", "state": "MN", "payer": "Reference Number :        26043001861", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "North Memorial Acclaim by Medica", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "I called the insurance company", "status": "In-Network"}, {"brand": "Well-America", "state": "MN", "payer": "Optum - Medica Minnesota Preferred", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "This insurance is deal through the optum and this provide is also INN with this.", "status": "In-Process"}, {"brand": "Well-America", "state": "MN", "payer": "Optum - UBH General", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Presbyterian Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "I called multiple times", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Quartz Health Plan", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Ridgeview Distinct by Medica", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Sanford Health Plan of Minnesota", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "South Country Health Alliance", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MN", "payer": "Tricare West", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Ucare", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "Medicaid is required for enrollment.", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "MN Sure", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "MN Care", "status": "Pending"}, {"brand": "Well-America", "state": "MN", "payer": "For Minnesota Care (MnCare)", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Recredenialing Date: 4/25/2028", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Alliance", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Ambetter NC (Wellcare)", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Amerihealth - Wellpoint", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Amerihealth - Caritas", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "BCBS NC - Commerical Major Medical", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "BCBS NC", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "BCBS NC - Blue Value", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "BCBS NC - Preferred Provider Network", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Care Source", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Carelon - NY Empire plan", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Carelon", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Carelon - Carelon - Emblem non HMO Network", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Carelon - Anthem Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Carelon - Providence plan partner commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Centene", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Request submit for link the provider with Tax ID over the call", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Cigna - Open Access Plus", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Cigna - POS", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Friday Health NC", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "HealthSCOPE Benefits", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Healthy Blue", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "I have tried calling twice", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Humana", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Kaiser Permanente", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "They do not provide credentialing services in the state of North Carolina.", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Medicaid", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "**Applied for portal.", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "Molina Health Care", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "North Carolina State Health Plan", "status": "Pending"}, {"brand": "Well-America", "state": "NC", "payer": "Optum - MAMSI Worker's Compensation", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum - NC DSNP", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum - North Carolina Exchange", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum - UBH General", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum -MAMSI OneNet PPO", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum -Oscar Health Plan", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Optum - BH Complete Commercial", "status": "Out of Network"}, {"brand": "Well-America", "state": "NC", "payer": "Partners Behavioral Health Management", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NC", "payer": "WellCare of North Carolina", "status": "In-Network"}, {"brand": "Well-America", "state": "NC", "payer": "The voicemail service was available", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Amerigroup DC", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "Firstly we need to enroll provider.", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "AmeriHealth Caritas DC", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "CareFirst BlueCross BlueShield", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group ID: 8625", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Becon Half Option HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Becon Health Option INC", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Emblem Health HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Emblem Health Non HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - GHI Commerical", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - New York State Empire", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Providence Plan Partner Commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Carelon - Unicare commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Cigna", "status": "Out of Network"}, {"brand": "Well-America", "state": "DC", "payer": "Cigna - OAP", "status": "Out of Network"}, {"brand": "Well-America", "state": "DC", "payer": "Cigna - POS", "status": "Out of Network"}, {"brand": "Well-America", "state": "DC", "payer": "Health Services for Children with Special Needs (HSCSN)", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Humana", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "IN Network", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Kaiser", "status": "REQ Denied"}, {"brand": "Well-America", "state": "DC", "payer": "Keystone First", "status": "REQ Denied"}, {"brand": "Well-America", "state": "DC", "payer": "Magellan", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:                        061007548", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:                        7J1483", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:                        7J1505", "status": "Out of Network"}, {"brand": "Well-America", "state": "DC", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:                        EE9771", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "NPI :        1699272690", "status": "Pending"}, {"brand": "Well-America", "state": "DC", "payer": "MedStar Family Choice DC", "status": "REQ Denied"}, {"brand": "Well-America", "state": "DC", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:  8483209", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Group/Provider ID:              6664084", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Molina Health Care", "status": "REQ Denied"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - District of Columbia DSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - District of Columbia Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - MAHP HMO Network", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - MAMSI OneNet PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - MAMSI PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - MAMSI Worker's Compensation", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Optum - UBH General", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Tricare East", "status": "In-Network"}, {"brand": "Well-America", "state": "DC", "payer": "Ticket Number: 3459104", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Wellcare", "status": "REQ Denied"}, {"brand": "Well-America", "state": "DC", "payer": "Wellpoint DC Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "DC", "payer": "Group ID: GR-1114121", "status": "In-Process"}, {"brand": "Therapy Central", "state": "GA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Alliant Health Plans", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Ambetter - Peach Health Plan", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Anthem Blue Cross and Blue Shield of Georgia", "status": "Out of Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Carelon - Beacon Value Option", "status": "In-Process"}, {"brand": "Therapy Central", "state": "GA", "payer": "CareSource", "status": "Pending"}, {"brand": "Therapy Central", "state": "GA", "payer": "Cigna", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Cigna - OAP", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Cigna - POS", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Health Net", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Humana", "status": "In-Process"}, {"brand": "Therapy Central", "state": "GA", "payer": "Kaiser Permanente of Georgia", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "I tried calling the Georgia Provider Relations phone number", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Panel is closed.", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Magellan", "status": "In-Process"}, {"brand": "Therapy Central", "state": "GA", "payer": "Once group is contracted then we need to submit a roster online throgh portal.", "status": "Pending"}, {"brand": "Therapy Central", "state": "GA", "payer": "Medicaid", "status": "Out of Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Please make note of your ATN: 1206590", "status": "Out of Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Please make note of your ATN: 1208730", "status": "In-Process"}, {"brand": "Therapy Central", "state": "GA", "payer": "Medicare", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Web Tracking ID: T011920260001627", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "NPI :        1083066369", "status": "Pending"}, {"brand": "Therapy Central", "state": "GA", "payer": "NPI :        1730818592", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Meritain health", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Molina", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Optum -  UBH General", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Optum - GA Exchange", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Optum", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Optum - BH Complete Commercial", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Newly added plan.", "status": "In-Network"}, {"brand": "Therapy Central", "state": "GA", "payer": "Optum - Oscar Health Plan", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Peach State Health Plan", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Tricare West", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "TriWest does not credential new providers in your Region", "status": "REQ Denied"}, {"brand": "Therapy Central", "state": "GA", "payer": "Wellcare", "status": "REQ Denied"}, {"brand": "Well-America", "state": "FL", "payer": "Beacon", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Beacon Choice EPO", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Beacon HMO", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Beacon Commercail Manage care", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Beacon Health PPO", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Clear", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Simply", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Optimum", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Freedom", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Magellan Behavioral", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Avmed", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "tri", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "List of Plans:", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Ambetter", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Well", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Sun Shine (", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "New Directions", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Aetna Comercial", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Aetna HDHP", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": ",Provider is In-network 09/15/2024", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Cigna POS", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Cigna EAP", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Cigna Open Acces", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Humana Gold Plus", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Humana", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Careplus", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Rail Road", "status": "In-Process"}, {"brand": "Well-America", "state": "FL", "payer": "Vanessa Approved. Individual PTAN: UY495. Reassignment effective: March 10", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "United Student Resource", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "United", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "UBH commerical", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Oscar", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Oscar Small Group Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "UHC FLDSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Florida", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "provider is now linked to the group.", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "VACCN", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "CHAMPA Federal", "status": "In-Network"}, {"brand": "Well-America", "state": "FL", "payer": "Sunshine", "status": "REQ Denied"}, {"brand": "Well-America", "state": "FL", "payer": "Baptist Physician Partners", "status": "In-Process"}, {"brand": "Well-America", "state": "FL", "payer": "We need Baptist hospital priviliges.", "status": "In-Process"}, {"brand": "Well-America", "state": "FL", "payer": "Capital", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Beacon Carelon", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Beacon Kasier", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-Beacon - Health Option", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-Beacon Califonia Commercail Exchange", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-EmblemHealth", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-GHI Commercail", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-Military OneSource", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-providence Plan Partner", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-NY Empire Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-Scan Medicare Advantage", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Carelon-Unicare commercial", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Linked with Tax id for same plans", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Approved. Eff: 02", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Aetna HDHP", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Aetna POS", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "BCBS (Anthem BlueCross)", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Panel is closed for 2025", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Blue Shield of California", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "BCBS (", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "PTAN: CA760360  Effective Date: 06", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "UBH General", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Oscar", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Oscar Small Group Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Medicare Product", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "UHC Genral", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "United Student Resource", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "UnitedHealth", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "UHC Sharp", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "UMR", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "UHC Canopy", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Well", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Cigna Hios", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "CIGNA Employer Group Policy", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Cigna Open Access HDHP", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Magellan - 301 Pinnacle", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Magellan - 378 Pinncle California Only", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Magellan - 41", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Western", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Medi Cal", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "RAIL ROAD", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Alignment", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Sutter", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Tri", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Veterans Administration - Federal", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "CHAMPVA Triacre", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": ",Group Contracted effective date 4/3O/2025", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Well-America", "state": "CA", "payer": "Imperiel", "status": "REQ Denied"}, {"brand": "Well-America", "state": "CA", "payer": "(F) 551.227.3892", "status": "REQ Denied"}, {"brand": "Well-America", "state": "CA", "payer": "California", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "GEHA", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Health Plan of Saan Joaquin", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Health Plan of San Francisco", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Health Plan of San Mateo", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Health Plan of Santa Clara", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Astrona", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "panel closed", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Pantership", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Plan has been added to the profile ref#252460010387 repname JOHN", "status": "REQ Denied"}, {"brand": "Well-America", "state": "CA", "payer": "Kiaser parmanate", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Valley", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "sharp helath plan", "status": "In-Process"}, {"brand": "Well-America", "state": "CA", "payer": "Medi-Medi", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NY", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Aetna HDHP", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Aetna better", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "CIGNA Employer Group Policy", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Empire BCBS", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Empire", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Empire POS", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "BCBS NY Traditional", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Empire Comm PCP Optional", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Empire Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Oscar Small Group Plan", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "UHC Oscar", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "UHC UBH  General", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Well", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Molina", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "First", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Rail road", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Magellan 301", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Magellan 378", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Magellan", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Elderplan", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Health first", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NY", "payer": "Fidelis", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Centene", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Approved Under fedlis", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Affinity", "status": "REQ Denied"}, {"brand": "Well-America", "state": "NY", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Well-America", "state": "NY", "payer": "Tri", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "email recieved they are working on Contracting process Netwokr manager Moffett", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "VACCN", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Champa", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "MVP", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "NYSHIP", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "CDPHP", "status": "In-Process"}, {"brand": "Well-America", "state": "NY", "payer": "Well First", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Regence BCBS", "status": "REQ Denied"}, {"brand": "Well-America", "state": "OR", "payer": "Rail Road", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Medicare", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Medicaid OR", "status": "In-Network"}, {"brand": "Well-America", "state": "OR", "payer": "Humana", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Multiplan", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Phone", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "VACCN", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Physical Location is required to move forward with contracting", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "However", "status": "In-Network"}, {"brand": "Well-America", "state": "OR", "payer": "Careoregon", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Need to Apply", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "PHCS", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "All", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Providence", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Megellen", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Kaiser Permanente Northwest", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Pacific Source", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "MODA", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Trillium", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Cascade", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "bridge (under", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Stride (under", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Health net", "status": "In-Process"}, {"brand": "Well-America", "state": "OR", "payer": "Advance", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "AETNA", "status": "In-Network"}, {"brand": "Well-America", "state": "MI", "payer": "UHC", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "UBH GENERAL", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "BCBS", "status": "In-Network"}, {"brand": "Well-America", "state": "MI", "payer": "Out-of-Network with BCN", "status": "In-Network"}, {"brand": "Well-America", "state": "MI", "payer": "TRI", "status": "In-Network"}, {"brand": "Well-America", "state": "MI", "payer": "PRIORITY", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "RAIL ROAD", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "Medicare", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "Deactivated", "status": "In-Process"}, {"brand": "Well-America", "state": "MI", "payer": "Oscar", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MI", "payer": "MOOP", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MI", "payer": "Beacon Health", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "BCBS SC", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "Blue", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "UBH", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "UBH Mediacre", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "provider linked with the group effective date 01", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "Medicare rail road", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "SC", "payer": "CARELON", "status": "REQ Denied"}, {"brand": "Well-America", "state": "SC", "payer": "First", "status": "In-Process"}, {"brand": "Well-America", "state": "SC", "payer": "VACCN", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Cigna POS", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Cigna OAP", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "List of Plans: MC", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Aetna MCR", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "CT", "payer": "Approved. Effective date: June 01", "status": "REQ Denied"}, {"brand": "Well-America", "state": "CT", "payer": "Multiplan", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Oxford", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "UBH General(UHC)", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "Exchange Connecticut", "status": "In-Network"}, {"brand": "Well-America", "state": "CT", "payer": "RAIL ROAD", "status": "In-Process"}, {"brand": "Well-America", "state": "CT", "payer": "Medicare", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Aetna", "status": "In-Network"}, {"brand": "Well-America", "state": "VA", "payer": "Aetna POS", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Aetna Better", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Anthem", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "VA", "payer": "Cigna Hios", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Cigna OPEN ACCESS Plus", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "UHC", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "UBH GENERAL", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "MAHP", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "MAMSI", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "MEDICARE ADVANTAGE", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Oxford", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "OSCAR", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "VA DSNP", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "VA COORDINATED", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "AARP", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Rail Road Mediacre", "status": "In-Network"}, {"brand": "Well-America", "state": "VA", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Well-America", "state": "VA", "payer": "Beacon", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Beacon Health Option", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Carelon Value based", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "GHI", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Humana", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Panel has been closed.", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Humana Gold", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "VACCN", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Health Keepers", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Virginia Premier", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Kaiser Permanente of the Mid-Atlantic States", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Kaiser Foundation", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Innovation", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "Virginia Cardinal plan", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "christians", "status": "In-Process"}, {"brand": "Well-America", "state": "VA", "payer": "OPtimum", "status": "In-Process"}, {"brand": "Well-America", "state": "MO", "payer": "Aetna", "status": "In-Process"}, {"brand": "Well-America", "state": "MO", "payer": "Aetna EAP", "status": "In-Process"}, {"brand": "Well-America", "state": "MO", "payer": "AETNA POS", "status": "In-Process"}, {"brand": "Well-America", "state": "MO", "payer": "CIGNA", "status": "In-Network"}, {"brand": "Well-America", "state": "MO", "payer": "CIGNA OPEN ACCESS PLUS", "status": "In-Network"}, {"brand": "Well-America", "state": "MO", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MO", "payer": "Tri", "status": "In-Process"}, {"brand": "Well-America", "state": "MO", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "WI", "payer": "UBH", "status": "In-Network"}, {"brand": "Well-America", "state": "WI", "payer": "WI Exchnage", "status": "In-Network"}, {"brand": "Well-America", "state": "WI", "payer": "WI DSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "WI", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "WI", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "WI", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "WI", "payer": "MHS", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Dean", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Security", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "mercy", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Aspirus (marketplace)", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Prestige", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Chorus Community", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Medica", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Health partners WI", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Comp", "status": "Pending"}, {"brand": "Well-America", "state": "WI", "payer": "Network", "status": "Pending"}, {"brand": "Well-America", "state": "KY", "payer": "Aetna", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "Aetna EAP", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "UBH", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "Indina Exchnage", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "Indina DSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "Medicare", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "Humana", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "Tri", "status": "In-Network"}, {"brand": "Well-America", "state": "KY", "payer": "Rail road", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "OSCARE Health", "status": "In-Process"}, {"brand": "Well-America", "state": "KY", "payer": "AARP", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Aetna MCR", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Aetna", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Aetna EAP", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Aetna POS", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Aetna Access", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna MCR", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna POS", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna EAP", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna PPA", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Cigna Healthspring", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "Optum Behavioral", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "UBH General", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "MAHP", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "MAMSI", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "MAMSI-Workers Comp", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "VA DSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "VA Exchange", "status": "In-Network"}, {"brand": "Well-America", "state": "MD", "payer": "BCBS", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "BCSBS", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Rail road", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Medicare", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Provider has been Linked to the Group. Reassigning", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "MD", "payer": "Champva", "status": "In-Process"}, {"brand": "Well-America", "state": "MD", "payer": "Beacon Carelon", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Aetna", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Aetna EAP", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "UBH", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "Indina  Exchnage UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "Indina DSNP UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "RAIL ROAD", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Medicare", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "PTAN IN7510001", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "BCBS Anthem Healthy Indiana Plan", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Medicaid", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Tri", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Beacon Health", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Well-America", "state": "IN", "payer": "VACCN", "status": "In-Process"}, {"brand": "Well-America", "state": "IN", "payer": ",4/10/2025:Application has been submitted", "status": "In-Network"}, {"brand": "Well-America", "state": "IN", "payer": "CHAMPVA", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Aetna MCR", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Aetna", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Aetna EAP", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Aetna POS", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Aetna Access", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna MCR", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna POS", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna EAP", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna PPA", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Cigna Healthspring", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Optum Beahvioral", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "UBH General", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "UHC", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Oscar Small Group", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "UMR", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "AARP", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Oscar", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "TN DSNP", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "TN Exchange", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "BCBS TN", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "MEDICARE", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "Medicare deactivated 01", "status": "In-Network"}, {"brand": "Well-America", "state": "TN", "payer": "RAIL ROAD", "status": "In-Process"}, {"brand": "Well-America", "state": "TN", "payer": "Medicaid", "status": "In-Process"},
+{"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Commercial EPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Commercial HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Commercial PPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - EAP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - First Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Managed Choice", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Medicare HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Aetna - Medicare PPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Alignment Health Plan (OPTUM)", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Ambetter", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AmeriHealth Caritas Arizona", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Arizona Complete Health - Complete Care Plan (Medicaid)", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - ALN", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - HMO", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - MDH (Medicare HMO)", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - MPP (Medicare PPO)", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - NBP", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - PAR", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - PPO", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - SEN", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "AZ Blue - WCP", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Banner Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Banner University Health", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Care First", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - Becon Health Ocean INC", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - Commerical", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - Emblem Health HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - Emblem Non HMO Network", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - GHI Commerical", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - New-york State Empire Plan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon - Unicare Commerical", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Carelon Behavioral Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "CHAMPVA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - EAP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - EPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - POS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Cigna (Evernorth) - PPO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Devoted Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "GEHA - Optum", "status": "Out of Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Health Choice Arizona", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Health Net", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Humana", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Imperial Health Plan - Medicare Advantage", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Indian Health Service (Program) IHS", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Kaiser Permanente", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Magellan", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Magellan - EAP", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Magellan - Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Magellan - Pinnacle HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Magellan - Summit Non HMO", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Medicaid", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Medicare", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Medicare RailRoad", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Mercy Care", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Meritain Health", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Meritain Health - Low HSA", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Molina Health Care", "status": "In-Process"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Multiplan - PHCS", "status": "In-Network"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - AZ Exchange", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - AZ Medicaid", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - AZ Physicians IPA RHBA Medicaid", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - Medicare", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - New Mexico Exchange", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - Oscar Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - Oscar Small Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Optum - UBH General", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "SCAN Health Plan", "status": "REQ Denied"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Steward Health Choice Arizona", "status": "Pending"}, {"brand": "Teletherapeutics", "state": "AZ", "payer": "Tricare West", "status": "In-Network"}];
+
+// ======= MAPS =======
+let currentMapVar = 'inn_rate';
+let currentRole = 'admin';
+let mapInited = false;
+
+const ROLE_ACCESS = {
+  admin: ['inn_rate','payer_count','pending_count','denied_count','brand_spread'],
+  credentialing: ['inn_rate','payer_count','pending_count','denied_count'],
+  billing: ['inn_rate','payer_count'],
+  readonly: ['inn_rate','payer_count']
+};
+
+function setRole(role, btn) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Hide/show admin-only tabs
+  document.querySelectorAll('.map-var-btn').forEach((b,i)=>{
+    const vars = ['inn_rate','payer_count','pending_count','denied_count','brand_spread'];
+    const allowed = ROLE_ACCESS[role];
+    b.style.display = allowed.includes(vars[i]) ? '' : 'none';
+  });
+  // If current var not allowed, switch
+  if (!ROLE_ACCESS[role].includes(currentMapVar)) {
+    currentMapVar = 'inn_rate';
+    document.querySelectorAll('.map-var-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.map-var-btn').classList.add('active');
+  }
+  renderMap();
+}
+
+function setMapVar(v, btn) {
+  currentMapVar = v;
+  document.querySelectorAll('.map-var-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMap();
+}
+
+function jumpToState(abbr) {
+  if (!abbr) return;
+  const path = document.querySelector(`[data-state="${abbr}"]`);
+  if (path) {
+    path.style.strokeWidth = '3';
+    path.style.stroke = '#c9a84c';
+    setTimeout(()=>{ path.style.strokeWidth='0.5'; path.style.stroke='#fff'; }, 2000);
+  }
+}
+
+function getStateStats(abbr) {
+  const brand = document.getElementById('mapBrandFilter').value;
+  let rows = CRED_DATA.filter(r => r.state === abbr);
+  if (brand) rows = rows.filter(r => r.brand === brand);
+  const total = rows.length;
+  const inn = rows.filter(r=>r.status==='In-Network').length;
+  const pending = rows.filter(r=>r.status==='Pending').length;
+  const denied = rows.filter(r=>r.status==='REQ Denied').length;
+  const inprocess = rows.filter(r=>r.status==='In-Process').length;
+  const brands = [...new Set(rows.map(r=>r.brand))];
+  return { total, inn, pending, denied, inprocess, brands, innRate: total ? Math.round(inn/total*100) : 0 };
+}
+
+function getMapColor(abbr) {
+  const s = getStateStats(abbr);
+  if (s.total === 0) return '#e2e8f0';
+  if (currentMapVar === 'inn_rate') {
+    const r = s.innRate;
+    if (r >= 60) return '#16a34a';
+    if (r >= 40) return '#84cc16';
+    if (r >= 20) return '#f59e0b';
+    return '#ef4444';
+  }
+  if (currentMapVar === 'payer_count') {
+    const n = s.total;
+    if (n >= 80) return '#1d4ed8';
+    if (n >= 40) return '#3b82f6';
+    if (n >= 20) return '#93c5fd';
+    return '#dbeafe';
+  }
+  if (currentMapVar === 'pending_count') {
+    const n = s.pending;
+    if (n >= 30) return '#92400e';
+    if (n >= 15) return '#f59e0b';
+    if (n >= 5) return '#fde68a';
+    return '#fef9c3';
+  }
+  if (currentMapVar === 'denied_count') {
+    const n = s.denied;
+    if (n >= 20) return '#991b1b';
+    if (n >= 10) return '#ef4444';
+    if (n >= 5) return '#fca5a5';
+    return '#fee2e2';
+  }
+  if (currentMapVar === 'brand_spread') {
+    const n = s.brands.length;
+    if (n >= 3) return '#7c3aed';
+    if (n === 2) return '#a78bfa';
+    if (n === 1) return '#ddd6fe';
+    return '#e2e8f0';
+  }
+  return '#e2e8f0';
+}
+
+function getLegendItems() {
+  const configs = {
+    inn_rate: { title:'In-Network Rate', items:[
+      {color:'#16a34a',label:'60%+ In-Network'},
+      {color:'#84cc16',label:'40–60% In-Network'},
+      {color:'#f59e0b',label:'20–40% In-Network'},
+      {color:'#ef4444',label:'Under 20% In-Network'},
+      {color:'#e2e8f0',label:'No Data'},
+    ]},
+    payer_count: { title:'Payer Count', items:[
+      {color:'#1d4ed8',label:'80+ Payers'},
+      {color:'#3b82f6',label:'40–80 Payers'},
+      {color:'#93c5fd',label:'20–40 Payers'},
+      {color:'#dbeafe',label:'Under 20 Payers'},
+      {color:'#e2e8f0',label:'No Data'},
+    ]},
+    pending_count: { title:'Pending Applications', items:[
+      {color:'#92400e',label:'30+ Pending'},
+      {color:'#f59e0b',label:'15–30 Pending'},
+      {color:'#fde68a',label:'5–15 Pending'},
+      {color:'#fef9c3',label:'Under 5 Pending'},
+      {color:'#e2e8f0',label:'No Data'},
+    ]},
+    denied_count: { title:'REQ Denied', items:[
+      {color:'#991b1b',label:'20+ Denied'},
+      {color:'#ef4444',label:'10–20 Denied'},
+      {color:'#fca5a5',label:'5–10 Denied'},
+      {color:'#fee2e2',label:'Under 5 Denied'},
+      {color:'#e2e8f0',label:'No Data'},
+    ]},
+    brand_spread: { title:'Brand Coverage', items:[
+      {color:'#7c3aed',label:'3 Brands'},
+      {color:'#a78bfa',label:'2 Brands'},
+      {color:'#ddd6fe',label:'1 Brand'},
+      {color:'#e2e8f0',label:'No Data'},
+    ]},
+  };
+  return configs[currentMapVar] || configs.inn_rate;
+}
+
+function renderMap() {
+  const states = [...new Set(CRED_DATA.map(r=>r.state))].sort();
+  // Update legend
+  const leg = getLegendItems();
+  document.getElementById('legendTitle').textContent = leg.title;
+  document.getElementById('legendItems').innerHTML = leg.items.map(i=>`
+    <div class="map-legend-item">
+      <div style="display:flex;align-items:center;">
+        <div class="map-legend-swatch" style="background:${i.color}"></div>
+        <span style="color:var(--gray-600)">${i.label}</span>
+      </div>
+    </div>`).join('');
+
+  // Update state list
+  const brand = document.getElementById('mapBrandFilter').value;
+  const activeStates = states.filter(s=>CRED_DATA.some(r=>r.state===s&&(!brand||r.brand===brand)));
+  document.getElementById('stateListItems').innerHTML = activeStates.map(s=>{
+    const st = getStateStats(s);
+    return `<div class="map-state-row" onclick="document.getElementById('mapStateJump').value='${s}';jumpToState('${s}')">
+      <strong style="font-size:12px">${s}</strong>
+      <span style="font-size:11px;color:var(--gray-400)">${st.total} payers · ${st.innRate}% INN</span>
+    </div>`;
+  }).join('');
+
+  // Update jump select
+  const sel = document.getElementById('mapStateJump');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select State —</option>' + activeStates.map(s=>`<option value="${s}">${s}</option>`).join('');
+  sel.value = cur;
+
+  // Color all state paths
+  document.querySelectorAll('.state-path').forEach(path=>{
+    const abbr = path.getAttribute('data-state');
+    path.setAttribute('fill', getMapColor(abbr));
+  });
+}
+
+function initMaps() {
+  if (mapInited) { renderMap(); return; }
+  mapInited = true;
+
+  // US State SVG paths (simplified but recognizable)
+  const STATE_PATHS = {
+    AL:"M 580 370 L 600 370 L 605 430 L 590 435 L 578 430 Z",
+    AK:"M 100 480 L 160 480 L 180 520 L 150 540 L 100 530 Z",
+    AZ:"M 200 340 L 270 340 L 275 420 L 200 420 Z",
+    AR:"M 545 350 L 590 350 L 590 390 L 545 390 Z",
+    CA:"M 130 260 L 190 240 L 210 330 L 190 410 L 140 390 Z",
+    CO:"M 280 300 L 370 300 L 370 360 L 280 360 Z",
+    CT:"M 730 220 L 755 220 L 755 240 L 730 240 Z",
+    DC:"M 700 280 L 710 280 L 710 290 L 700 290 Z",
+    DE:"M 710 250 L 720 250 L 720 275 L 710 275 Z",
+    FL:"M 610 420 L 660 420 L 680 460 L 650 490 L 615 480 Z",
+    GA:"M 605 370 L 650 370 L 650 430 L 610 435 Z",
+    HI:"M 240 530 L 320 530 L 320 550 L 240 550 Z",
+    ID:"M 210 200 L 265 200 L 265 300 L 230 300 L 210 260 Z",
+    IL:"M 565 270 L 595 270 L 595 360 L 565 360 Z",
+    IN:"M 595 270 L 625 270 L 625 340 L 595 340 Z",
+    IA:"M 505 250 L 565 250 L 565 295 L 505 295 Z",
+    KS:"M 390 320 L 490 320 L 490 365 L 390 365 Z",
+    KY:"M 600 310 L 680 310 L 680 345 L 600 345 Z",
+    LA:"M 530 400 L 580 400 L 585 440 L 545 445 Z",
+    ME:"M 780 160 L 810 155 L 815 200 L 780 205 Z",
+    MD:"M 685 265 L 720 265 L 725 285 L 685 285 Z",
+    MA:"M 745 205 L 790 200 L 795 220 L 745 225 Z",
+    MI:"M 590 200 L 650 195 L 655 255 L 590 255 Z",
+    MN:"M 480 175 L 545 175 L 545 250 L 480 250 Z",
+    MS:"M 560 370 L 590 370 L 590 440 L 560 440 Z",
+    MO:"M 500 305 L 565 305 L 565 370 L 500 370 Z",
+    MT:"M 215 170 L 370 165 L 375 235 L 215 240 Z",
+    NE:"M 385 270 L 490 270 L 490 320 L 385 320 Z",
+    NV:"M 175 255 L 225 235 L 250 320 L 205 340 Z",
+    NH:"M 755 185 L 775 185 L 775 225 L 755 225 Z",
+    NJ:"M 710 235 L 730 235 L 730 270 L 710 270 Z",
+    NM:"M 265 340 L 350 340 L 350 420 L 265 420 Z",
+    NY:"M 680 195 L 755 185 L 760 235 L 680 240 Z",
+    NC:"M 640 320 L 740 315 L 745 355 L 640 355 Z",
+    ND:"M 380 175 L 480 175 L 480 225 L 380 225 Z",
+    OH:"M 625 255 L 680 255 L 680 310 L 625 310 Z",
+    OK:"M 380 355 L 490 355 L 495 400 L 380 400 Z",
+    OR:"M 145 195 L 225 195 L 225 260 L 145 265 Z",
+    PA:"M 645 225 L 725 220 L 725 265 L 645 265 Z",
+    RI:"M 755 220 L 770 220 L 770 235 L 755 235 Z",
+    SC:"M 645 345 L 690 340 L 695 375 L 650 380 Z",
+    SD:"M 380 225 L 480 225 L 480 275 L 380 275 Z",
+    TN:"M 580 340 L 675 335 L 678 370 L 580 372 Z",
+    TX:"M 355 365 L 510 360 L 510 455 L 420 460 L 360 420 Z",
+    UT:"M 230 290 L 290 290 L 290 360 L 230 360 Z",
+    VT:"M 740 178 L 760 175 L 762 210 L 740 212 Z",
+    VA:"M 640 280 L 720 270 L 725 315 L 640 318 Z",
+    WA:"M 150 160 L 235 155 L 238 198 L 150 200 Z",
+    WV:"M 645 270 L 690 265 L 695 310 L 648 315 Z",
+    WI:"M 540 195 L 590 195 L 590 260 L 540 260 Z",
+    WY:"M 285 235 L 375 232 L 375 300 L 285 302 Z"
+  };
+
+  const svg = document.getElementById('usSvg');
+  svg.innerHTML = '';
+
+  Object.entries(STATE_PATHS).forEach(([abbr, d]) => {
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', d);
+    path.setAttribute('data-state', abbr);
+    path.setAttribute('class', 'state-path');
+    path.setAttribute('fill', '#e2e8f0');
+
+    // Label
+    const bbox = d.match(/M ([\d.]+) ([\d.]+)/);
+    if (bbox) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+      // approximate center
+      const nums = d.match(/[\d.]+/g).map(Number);
+      const xs = nums.filter((_,i)=>i%2===0), ys = nums.filter((_,i)=>i%2!==0);
+      const cx = (Math.min(...xs)+Math.max(...xs))/2;
+      const cy = (Math.min(...ys)+Math.max(...ys))/2;
+      text.setAttribute('x', cx);
+      text.setAttribute('y', cy+3);
+      text.setAttribute('text-anchor','middle');
+      text.setAttribute('font-size','7');
+      text.setAttribute('font-family','Barlow Condensed,sans-serif');
+      text.setAttribute('font-weight','700');
+      text.setAttribute('fill','#ffffff');
+      text.setAttribute('pointer-events','none');
+      text.textContent = abbr;
+      svg.appendChild(text);
+    }
+
+    // Tooltip
+    path.addEventListener('mouseenter', (e) => {
+      const st = getStateStats(abbr);
+      const tt = document.getElementById('mapTooltip');
+      tt.style.display = 'block';
+      tt.innerHTML = `<strong>${abbr}</strong>
+        Total Payers: ${st.total}<br>
+        In-Network: ${st.inn} (${st.innRate}%)<br>
+        Pending: ${st.pending}<br>
+        Denied: ${st.denied}<br>
+        In-Process: ${st.inprocess}<br>
+        Brands: ${st.brands.join(', ')||'—'}`;
+    });
+    path.addEventListener('mousemove', (e) => {
+      const wrap = document.getElementById('mapWrap');
+      const rect = wrap.getBoundingClientRect();
+      const tt = document.getElementById('mapTooltip');
+      tt.style.left = (e.clientX - rect.left + 12) + 'px';
+      tt.style.top = (e.clientY - rect.top - 10) + 'px';
+    });
+    path.addEventListener('mouseleave', () => {
+      document.getElementById('mapTooltip').style.display = 'none';
+    });
+    path.addEventListener('click', () => {
+      document.getElementById('mapStateJump').value = abbr;
+    });
+
+    svg.insertBefore(path, svg.firstChild);
+  });
+
+  renderMap();
+}
+
+const STATUS_BADGE={'In-Network':'badge-green','REQ Denied':'badge-red','Pending':'badge-yellow','In-Process':'badge-blue','Out of Network':'badge-orange'};
+const STATUS_COLOR={'In-Network':'#22c55e','REQ Denied':'#ef4444','Pending':'#f59e0b','In-Process':'#3b82f6','Out of Network':'#f97316'};
+const PRIORITY=['In-Network','In-Process','Pending','REQ Denied','Out of Network'];
+
+let currentState='ALL', sortKey='payer', sortAsc=true, credInited=false;
+
+function showPage(id){
+  if(id==='sca'){setTimeout(()=>{filterSCA();},10);}
+  if(id==='directory'){setTimeout(()=>{filterDir();},10);}
+  if(id==='vision'){setTimeout(()=>{renderVision();},10);}
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  if(id==='credentialing') initCred();
+  if(id==='maps') initMaps();
+}
+
+function initCred(){
+  if(credInited){applyFilters();return;}
+  credInited=true;
+  const states=['ALL',...new Set(CRED_DATA.map(r=>r.state)).values()].sort((a,b)=>a==='ALL'?-1:b==='ALL'?1:a.localeCompare(b));
+  document.getElementById('stateTabs').innerHTML=states.map(s=>
+    `<button class="state-tab${s==='ALL'?' active':''}" onclick="setStateTab(this,'${s}')">${s==='ALL'?'All States':s}</button>`
+  ).join('');
+  applyFilters();
+}
+
+function setStateTab(el,state){
+  document.querySelectorAll('.state-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentState=state;
+  applyFilters();
+}
+
+function getFiltered(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const st=document.getElementById('statusFilter').value;
+  const br=document.getElementById('brandFilter').value;
+  return CRED_DATA.filter(r=>
+    (currentState==='ALL'||r.state===currentState)&&
+    (!q||r.payer.toLowerCase().includes(q))&&
+    (!st||r.status===st)&&
+    (!br||r.brand===br)
+  );
+}
+
+function applyFilters(){
+  let rows=getFiltered();
+  rows.sort((a,b)=>{
+    let av=a[sortKey]||'',bv=b[sortKey]||'';
+    return sortAsc?av.localeCompare(bv):bv.localeCompare(av);
+  });
+
+  const scope=currentState==='ALL'?CRED_DATA:CRED_DATA.filter(r=>r.state===currentState);
+  const cnt=s=>scope.filter(r=>r.status===s).length;
+  document.getElementById('cnt-inn').textContent=cnt('In-Network');
+  document.getElementById('cnt-denied').textContent=cnt('REQ Denied');
+  document.getElementById('cnt-pending').textContent=cnt('Pending');
+  document.getElementById('cnt-process').textContent=cnt('In-Process');
+  document.getElementById('cnt-oon').textContent=cnt('Out of Network');
+
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML=rows.length?rows.map(r=>`
+    <tr>
+      <td><div class="payer-name">${r.payer}</div></td>
+      <td><span class="meta-text">${r.brand}</span></td>
+      <td><strong>${r.state}</strong></td>
+      <td><span class="badge ${STATUS_BADGE[r.status]||'badge-yellow'}">${r.status}</span></td>
+    </tr>`).join(''):`<tr><td colspan="4"><div class="no-results">🔍 No payers found</div></td></tr>`;
+
+  document.getElementById('resultsCount').textContent=rows.length+' records';
+  updateDonut(scope);
+  updateBrands(scope);
+}
+
+function sortBy(key){
+  if(sortKey===key)sortAsc=!sortAsc;else{sortKey=key;sortAsc=true;}
+  applyFilters();
+}
+
+function updateDonut(data){
+  const statuses=['In-Network','REQ Denied','Pending','In-Process','Out of Network'];
+  const total=data.length||1;
+  const counts=statuses.map(s=>({s,n:data.filter(r=>r.status===s).length}));
+  const cx=100,cy=100,r=80,thick=26;
+  let start=-Math.PI/2,paths='';
+  for(const{s,n}of counts){
+    if(!n)continue;
+    const angle=(n/total)*2*Math.PI;
+    const end=start+angle;
+    const x1=cx+r*Math.cos(start),y1=cy+r*Math.sin(start);
+    const x2=cx+r*Math.cos(end),y2=cy+r*Math.sin(end);
+    const ir=r-thick;
+    const ix1=cx+ir*Math.cos(start),iy1=cy+ir*Math.sin(start);
+    const ix2=cx+ir*Math.cos(end),iy2=cy+ir*Math.sin(end);
+    const lg=angle>Math.PI?1:0;
+    paths+=`<path d="M${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2} L${ix2},${iy2} A${ir},${ir} 0 ${lg},0 ${ix1},${iy1} Z" fill="${STATUS_COLOR[s]}" opacity=".9" style="cursor:default">
+      <title>${s}: ${n}</title></path>`;
+    start=end;
+  }
+  document.getElementById('donutSvg').innerHTML=paths+
+    `<text x="100" y="95" text-anchor="middle" font-family="Barlow Condensed" font-size="28" font-weight="800" fill="#0d1b2a">${total}</text>`+
+    `<text x="100" y="112" text-anchor="middle" font-family="Barlow" font-size="10" font-weight="600" fill="#94a3b8" letter-spacing="1">PAYERS</text>`;
+  document.getElementById('donutLegend').innerHTML=counts.map(({s,n})=>`
+    <div class="legend-item">
+      <div class="legend-name"><span class="legend-dot" style="background:${STATUS_COLOR[s]}"></span>${s}</div>
+      <div class="legend-count">${n}</div>
+    </div>`).join('');
+}
+
+function updateBrands(data){
+  const brands=['Teletherapeutics','Well-America','Therapy Central'];
+  const colors={'Teletherapeutics':'#c9a84c','Well-America':'#3b82f6','Therapy Central':'#22c55e'};
+  const total=data.length||1;
+  document.getElementById('brandBreakdown').innerHTML=brands.map(b=>{
+    const n=data.filter(r=>r.brand===b).length;
+    const pct=Math.round(n/total*100);
+    return `<div style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:12px;font-weight:600;color:var(--navy)">${b}</span>
+        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--navy)">${n}</span>
+      </div>
+      <div style="background:var(--gray-200);border-radius:4px;height:7px;">
+        <div style="background:${colors[b]};width:${pct}%;height:7px;border-radius:4px;"></div>
+      </div></div>`;
+  }).join('');
+}
+
+
+// ======= STAFF DIRECTORY =======
+const STAFF_DATA = [
+  {name:"Dr. Syed Kazmi",title:"Director of Clinical Services",dept:"Leadership",email:"skazmi@teletherapeutics.com"},
+  {name:"Fathy Abdalla",title:"Director of Operations",dept:"Operations",email:"fabdalla@teletherapeutics.com"},
+  {name:"Naheed Kazmi",title:"Director of Outreach",dept:"Outreach",email:"nkazmi@teletherapeutics.com"},
+  {name:"Lisa Donofrio",title:"Practice Manager",dept:"Operations",email:"ldonofrio@teletherapeutics.com"},
+  {name:"Shanker Labh",title:"Billing Lead",dept:"Billing",email:"slabh@teletherapeutics.com"},
+  {name:"Abdul Ahad",title:"Credentialing Lead",dept:"Credentialing",email:"aahad@teletherapeutics.com"},
+  {name:"Sarmad Khan",title:"Credentialing Lead",dept:"Credentialing",email:"skhan@teletherapeutics.com"},
+  {name:"Xiao Fu",title:"PMHNP",dept:"Clinical",email:"xfu@teletherapeutics.com"},
+  {name:"Racheal Korede",title:"PMHNP",dept:"Clinical",email:"rkorede@teletherapeutics.com"},
+  {name:"Helene Vossos",title:"PMHNP",dept:"Clinical",email:"hvossos@teletherapeutics.com"},
+  {name:"Rekiyat Subair",title:"PMHNP",dept:"Clinical",email:"rsubair@teletherapeutics.com"},
+  {name:"Valsamma Joy",title:"PMHNP",dept:"Clinical",email:"vjoy@teletherapeutics.com"},
+  {name:"Clem Manual",title:"NP",dept:"Clinical",email:"cmanual@teletherapeutics.com"},
+  {name:"Bridget Lewis",title:"LCSW",dept:"Clinical",email:"blewis@teletherapeutics.com"},
+  {name:"Denise Mershon",title:"LCSW",dept:"Clinical",email:"dmershon@teletherapeutics.com"},
+  {name:"Benjamin Gatliff",title:"LPC",dept:"Clinical",email:"bgatliff@teletherapeutics.com"},
+  {name:"Bruce Sherman",title:"Staff Member",dept:"Operations",email:"bsherman@teletherapeutics.com"}
+];
+const DIR_COLORS = {Leadership:'#0d3d6e',Operations:'#1a5fa8',Clinical:'#2e7d32',Credentialing:'#c8972a',Billing:'#7b1fa2',Outreach:'#00838f'};
+function renderDir(data){
+  const g=document.getElementById('dirGrid'); if(!g)return;
+  g.innerHTML=data.map(s=>`<div style="background:#fff;border:1px solid #dde3f0;border-radius:10px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,.05);"><div style="width:48px;height:48px;border-radius:50%;background:${DIR_COLORS[s.dept]||'#555'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;margin-bottom:10px;">${s.name.charAt(0)}</div><div style="font-weight:700;font-size:14px;color:#0d3d6e;">${s.name}</div><div style="font-size:12px;color:#555;margin:2px 0;">${s.title}</div><div style="display:inline-block;background:${DIR_COLORS[s.dept]||'#555'}22;color:${DIR_COLORS[s.dept]||'#555'};border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600;margin:4px 0;">${s.dept}</div><div style="margin-top:6px;"><a href="mailto:${s.email}" style="color:#1a5fa8;font-size:12px;text-decoration:none;">✉ ${s.email}</a></div></div>`).join('');
+}
+function filterDir(){
+  const q=(document.getElementById('dirSearch')||{value:''}).value.toLowerCase();
+  const d=(document.getElementById('dirDept')||{value:''}).value;
+  renderDir(STAFF_DATA.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.title.toLowerCase().includes(q))&&(!d||s.dept===d)));
+}
+
+// ======= VISION 2026 =======
+const VISION_STATES=[
+  {st:"CA",name:"California",status:"active"},{st:"WA",name:"Washington",status:"active"},
+  {st:"TX",name:"Texas",status:"active"},{st:"FL",name:"Florida",status:"active"},
+  {st:"NY",name:"New York",status:"active"},{st:"AZ",name:"Arizona",status:"coming"},
+  {st:"CO",name:"Colorado",status:"coming"},{st:"NV",name:"Nevada",status:"coming"},
+  {st:"NM",name:"New Mexico",status:"coming"},{st:"OH",name:"Ohio",status:"coming"},
+  {st:"OR",name:"Oregon",status:"coming"},{st:"UT",name:"Utah",status:"coming"}
+];
+function renderVision(){
+  const list=document.getElementById('visionStateList'); if(!list)return;
+  list.innerHTML=VISION_STATES.map(s=>`<div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dde3f0;border-radius:8px;padding:12px 16px;"><span style="font-size:18px;">${s.status==='active'?'✅':'🔜'}</span><span style="background:#0d3d6e;color:#fff;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:700;">${s.st}</span><span style="font-weight:600;color:#0d3d6e;">${s.name}</span><span style="margin-left:auto;font-size:11px;font-weight:700;color:${s.status==='active'?'#3db83d':'#f59e0b'};background:${s.status==='active'?'#d1fae5':'#fef3c7'};padding:2px 10px;border-radius:12px;">${s.status==='active'?'ACTIVE':'COMING SOON'}</span></div>`).join('');
+}
+
+// ======= SCA DATA =======
+const SCA_DATA=[
+  {st:"CA",name:"California",region:"West",dept:"https://www.dmhc.ca.gov",complaint:"https://www.dmhc.ca.gov/HealthCareInMyNeighborhood/FileaComplaint.aspx",law:"Cal. Health & Safety Code § 1367.03 + 28 CCR § 1300.67.2.2",notes:"Strongest timely access law. File with DMHC (HMO) or CDI (PPO)."},
+  {st:"WA",name:"Washington",region:"West",dept:"https://www.insurance.wa.gov",complaint:"https://www.insurance.wa.gov/file-complaint-or-check-claim",law:"Wash. Rev. Code § 48.43.515 — 10-business-day MH standard",notes:"File with OIC. Very strong."},
+  {st:"OR",name:"Oregon",region:"West",dept:"https://dfr.oregon.gov",complaint:"https://dfr.oregon.gov/consumers/complaints/Pages/index.aspx",law:"Or. Rev. Stat. § 743B.525 + OAR 836-053-0013",notes:"File with DCBS after denial."},
+  {st:"NY",name:"New York",region:"Northeast",dept:"https://www.dfs.ny.gov",complaint:"https://www.dfs.ny.gov/complaint",law:"N.Y. Ins. Law § 4803 — OON at INN cost if network fails",notes:"File with DFS. Very consumer-friendly."},
+  {st:"NJ",name:"New Jersey",region:"Northeast",dept:"https://www.state.nj.us/dobi",complaint:"https://www.state.nj.us/dobi/division_insurance/complaints/complaint.htm",law:"N.J. Stat. Ann. § 26:2S-6 — Managed care network adequacy",notes:"Cite NJ Mental Health Parity Act."},
+  {st:"TX",name:"Texas",region:"Southwest",dept:"https://www.tdi.texas.gov",complaint:"https://www.tdi.texas.gov/consumer/complain.html",law:"Tex. Ins. Code Ann. § 843.351 — OON at INN cost if unavailable",notes:"File with TDI. Strong statute."},
+  {st:"FL",name:"Florida",region:"Southeast",dept:"https://www.myfloridacfo.com/division/ins",complaint:"https://www.myfloridacfo.com/division/ins/consumers/complaint.htm",law:"Fla. Stat. § 641.3155 — Timely access; OON at INN cost",notes:"File with FL OIR."},
+  {st:"OH",name:"Ohio",region:"Midwest",dept:"https://insurance.ohio.gov",complaint:"https://insurance.ohio.gov/consumers/consumer-resources/file-a-complaint",law:"Ohio Rev. Code Ann. § 1742.42 — OON at INN cost if unavailable",notes:"File with ODI."},
+  {st:"AZ",name:"Arizona",region:"Southwest",dept:"https://insurance.az.gov",complaint:"https://insurance.az.gov/consumers/file-a-complaint",law:"Ariz. Rev. Stat. § 20-1079 — OON required if in-network unavailable",notes:"File with DIFI."},
+  {st:"CO",name:"Colorado",region:"Southwest",dept:"https://doi.colorado.gov",complaint:"https://doi.colorado.gov/consumers/file-a-complaint",law:"Colo. Rev. Stat. § 10-16-704 — OON authorized if network fails",notes:"File with CO DOI."},
+  {st:"NV",name:"Nevada",region:"Southwest",dept:"https://doi.nv.gov",complaint:"https://doi.nv.gov/Consumers/Complaint/",law:"Nev. Rev. Stat. § 695C.170 — OON required if network inadequate",notes:"File with NV DOI."},
+  {st:"NM",name:"New Mexico",region:"Southwest",dept:"https://www.osi.state.nm.us",complaint:"https://www.osi.state.nm.us/consumers/complaints.aspx",law:"N.M. Stat. Ann. § 59A-57-8 — OON at INN cost",notes:"File with OSI."},
+  {st:"MA",name:"Massachusetts",region:"Northeast",dept:"https://www.mass.gov/orgs/division-of-insurance",complaint:"https://www.mass.gov/how-to/file-a-health-insurance-complaint",law:"Mass. Gen. Laws ch. 176O, § 12 — OON when in-network unavailable",notes:"Strong SCA precedent; cite Ch. 176O."},
+  {st:"MD",name:"Maryland",region:"Northeast",dept:"https://insurance.maryland.gov",complaint:"https://insurance.maryland.gov/Consumer/Pages/FileAComplaint.aspx",law:"Md. Insurance Code Ann. § 15-112 — Timely access for mental health",notes:"MIA enforces parity aggressively."},
+  {st:"CT",name:"Connecticut",region:"Northeast",dept:"https://portal.ct.gov/cid",complaint:"https://www.ct.gov/cid/cwp/view.asp?a=1267&q=256476",law:"Conn. Gen. Stat. § 38a-477aa — OON at INN cost if unavailable",notes:"Strong parity enforcement."},
+  {st:"VA",name:"Virginia",region:"Southeast",dept:"https://www.scc.virginia.gov/pages/Bureau-of-Insurance",complaint:"https://www.scc.virginia.gov/pages/Insurance-Complaints",law:"Va. Code Ann. § 38.2-3407.15 — OON if in-network unavailable",notes:"File with VA SCC."},
+  {st:"MN",name:"Minnesota",region:"Midwest",dept:"https://mn.gov/commerce/insurance/",complaint:"https://mn.gov/commerce/consumers/insurance/complaints/",law:"Minn. Stat. § 62Q.22 — OON required if network inadequate",notes:""},
+  {st:"IL",name:"Illinois",region:"Midwest",dept:"https://insurance.illinois.gov",complaint:"https://insurance.illinois.gov/Complaints/ComplaintForm.aspx",law:"215 Ill. Comp. Stat. 125/4-8 — HMO timely access",notes:""},
+  {st:"GA",name:"Georgia",region:"Southeast",dept:"https://www.oci.ga.gov",complaint:"https://www.oci.ga.gov/consumersafety/filecomplaint.aspx",law:"O.C.G.A. § 33-20A-6 — Network adequacy for HMOs",notes:""},
+  {st:"NC",name:"North Carolina",region:"Southeast",dept:"https://www.ncdoi.gov",complaint:"https://www.ncdoi.gov/consumers/file-a-complaint/",law:"N.C. Gen. Stat. § 58-67-170 — HMO network adequacy",notes:""},
+  {st:"PA",name:"Pennsylvania",region:"Northeast",dept:"https://www.insurance.pa.gov",complaint:"https://www.insurance.pa.gov/Consumers/Pages/FileAComplaint.aspx",law:"Pa. Cons. Stat. tit. 40, § 991.2165 — Network adequacy",notes:""},
+  {st:"MI",name:"Michigan",region:"Midwest",dept:"https://www.michigan.gov/difs",complaint:"https://www.michigan.gov/difs/consumer-complaints",law:"Mich. Comp. Laws § 500.3509 — Network adequacy",notes:""},
+  {st:"TN",name:"Tennessee",region:"Southeast",dept:"https://www.tn.gov/commerce/insurance",complaint:"https://www.tn.gov/commerce/insurance/file-a-complaint.html",law:"Tenn. Code Ann. § 56-32-226 — HMO network adequacy",notes:""},
+  {st:"IN",name:"Indiana",region:"Midwest",dept:"https://www.in.gov/idoi",complaint:"https://www.in.gov/idoi/consumer-services/file-a-complaint/",law:"Ind. Code § 27-13-6-2 — HMO network adequacy",notes:""},
+  {st:"MO",name:"Missouri",region:"Midwest",dept:"https://insurance.mo.gov",complaint:"https://insurance.mo.gov/consumers/complaint/",law:"Mo. Rev. Stat. § 354.505 — HMO network adequacy",notes:""},
+  {st:"WI",name:"Wisconsin",region:"Midwest",dept:"https://oci.wi.gov",complaint:"https://oci.wi.gov/Pages/Consumers/GettingHelp.aspx",law:"Wis. Stat. § 628.34 — Network adequacy",notes:""},
+  {st:"KY",name:"Kentucky",region:"Southeast",dept:"https://insurance.ky.gov",complaint:"https://insurance.ky.gov/consumer/complaint.aspx",law:"Ky. Rev. Stat. Ann. § 304.17A-535 — Network adequacy",notes:""},
+  {st:"AL",name:"Alabama",region:"Southeast",dept:"https://www.aldoi.gov",complaint:"https://www.aldoi.gov/Consumers/ConsumerComplaint.aspx",law:"Ala. Code § 27-21A-25 — HMO network adequacy",notes:""},
+  {st:"SC",name:"South Carolina",region:"Southeast",dept:"https://doi.sc.gov",complaint:"https://doi.sc.gov/consumer/fileacomplaint.aspx",law:"S.C. Code Ann. § 38-33-210 — HMO timely access",notes:""},
+  {st:"LA",name:"Louisiana",region:"Southwest",dept:"https://www.ldi.la.gov",complaint:"https://www.ldi.la.gov/consumers/file-a-complaint",law:"La. Rev. Stat. Ann. § 22:1867 — HMO network adequacy",notes:""},
+  {st:"OK",name:"Oklahoma",region:"Southwest",dept:"https://www.oid.ok.gov",complaint:"https://www.oid.ok.gov/consumers/file-a-complaint/",law:"Okla. Stat. tit. 36, § 6838 — HMO network adequacy",notes:""},
+  {st:"AR",name:"Arkansas",region:"Southeast",dept:"https://www.insurance.arkansas.gov",complaint:"https://www.insurance.arkansas.gov/consumers/complaints/",law:"Ark. Code Ann. § 23-76-125 — HMO network adequacy",notes:""},
+  {st:"MS",name:"Mississippi",region:"Southeast",dept:"https://www.mid.ms.gov",complaint:"https://www.mid.ms.gov/consumer-services/file-a-complaint/",law:"Miss. Code Ann. § 83-41-329 — HMO network adequacy",notes:""},
+  {st:"IA",name:"Iowa",region:"Midwest",dept:"https://iid.iowa.gov",complaint:"https://iid.iowa.gov/consumers/file-a-complaint",law:"Iowa Code § 514B.28 — HMO network adequacy",notes:""},
+  {st:"KS",name:"Kansas",region:"Midwest",dept:"https://insurance.ks.gov",complaint:"https://insurance.ks.gov/consumer-assistance/file-a-complaint/",law:"Kan. Stat. Ann. § 40-3234 — HMO network adequacy",notes:""},
+  {st:"NE",name:"Nebraska",region:"Midwest",dept:"https://doi.nebraska.gov",complaint:"https://doi.nebraska.gov/consumer/complaints",law:"Neb. Rev. Stat. § 44-32,163 — HMO network adequacy",notes:""},
+  {st:"SD",name:"South Dakota",region:"Midwest",dept:"https://dlr.sd.gov/insurance",complaint:"https://dlr.sd.gov/insurance/complaints.aspx",law:"S.D. Codified Laws § 58-38-97 — Network adequacy",notes:""},
+  {st:"ND",name:"North Dakota",region:"Midwest",dept:"https://www.nd.gov/ndins",complaint:"https://www.nd.gov/ndins/consumer/complaint.asp",law:"N.D. Cent. Code § 26.1-47-23 — HMO adequacy",notes:""},
+  {st:"WV",name:"West Virginia",region:"Southeast",dept:"https://www.wvinsurance.gov",complaint:"https://www.wvinsurance.gov/Consumers/File-a-Complaint",law:"W. Va. Code § 33-25A-26 — HMO network adequacy",notes:""},
+  {st:"ME",name:"Maine",region:"Northeast",dept:"https://www.maine.gov/pfr/insurance",complaint:"https://www.maine.gov/pfr/insurance/consumers/file-complaint",law:"Me. Rev. Stat. tit. 24-A, § 4303 — OON at INN if network inadequate",notes:""},
+  {st:"NH",name:"New Hampshire",region:"Northeast",dept:"https://www.nh.gov/insurance",complaint:"https://www.nh.gov/insurance/consumers/complaints.htm",law:"N.H. Rev. Stat. Ann. § 420-J:6 — OON required when timely access unmet",notes:""},
+  {st:"RI",name:"Rhode Island",region:"Northeast",dept:"https://health.ri.gov/insurance",complaint:"https://dbr.ri.gov/insurance/complaintform.php",law:"R.I. Gen. Laws § 27-18-76 — Timely access to care",notes:""},
+  {st:"VT",name:"Vermont",region:"Northeast",dept:"https://dfr.vermont.gov/insurance",complaint:"https://dfr.vermont.gov/insurance/file-complaint",law:"Vt. Stat. Ann. tit. 8, § 4089h — OON required when standards unmet",notes:""},
+  {st:"DC",name:"Washington D.C.",region:"Northeast",dept:"https://disb.dc.gov",complaint:"https://disb.dc.gov/service/file-insurance-complaint",law:"D.C. Code § 31-3131 — Network adequacy and timely access",notes:""},
+  {st:"DE",name:"Delaware",region:"Northeast",dept:"https://insurance.delaware.gov",complaint:"https://insurance.delaware.gov/consumers/consumer-complaint/",law:"Del. Code Ann. tit. 18, § 3343 — OON required if timely access not met",notes:""},
+  {st:"UT",name:"Utah",region:"West",dept:"https://insurance.utah.gov",complaint:"https://insurance.utah.gov/consumers/file-a-complaint/",law:"Utah Code Ann. § 31A-8-405 — OON if network fails",notes:"File with UID."},
+  {st:"AK",name:"Alaska",region:"West",dept:"https://www.commerce.alaska.gov/web/ins",complaint:"https://www.commerce.alaska.gov/web/ins/Consumer/FileaComplaint.aspx",law:"Alaska Stat. § 21.86.180 — HMO network adequacy",notes:""},
+  {st:"HI",name:"Hawaii",region:"West",dept:"https://cca.hawaii.gov/ins",complaint:"https://cca.hawaii.gov/ins/consumer-assistance/file-a-complaint/",law:"Haw. Rev. Stat. § 432D-15 — HMO network adequacy",notes:""},
+  {st:"ID",name:"Idaho",region:"West",dept:"https://doi.idaho.gov",complaint:"https://doi.idaho.gov/consumers/file-a-complaint/",law:"Idaho Code § 41-3924 — HMO network adequacy",notes:""},
+  {st:"MT",name:"Montana",region:"West",dept:"https://csimt.gov",complaint:"https://csimt.gov/consumers/complaint-center/file-a-complaint/",law:"Mont. Code Ann. § 33-31-308 — HMO network adequacy",notes:""},
+  {st:"WY",name:"Wyoming",region:"West",dept:"https://insurance.wyo.gov",complaint:"https://insurance.wyo.gov/consumer-assistance/complaints/",law:"Wyo. Stat. Ann. § 26-34-127 — HMO network adequacy",notes:""}
+];
+function filterSCA(){
+  const q=(document.getElementById('scaSearch')||{value:''}).value.toLowerCase();
+  const r=(document.getElementById('scaRegion')||{value:''}).value;
+  renderSCA(SCA_DATA.filter(d=>(!q||d.name.toLowerCase().includes(q)||d.st.toLowerCase().includes(q))&&(!r||d.region===r)));
+}
+function renderSCA(rows){
+  const tbody=document.getElementById('scaTbody'); if(!tbody)return;
+  tbody.innerHTML=rows.map((d,i)=>`<tr style="background:${i%2===0?'#fff':'#f8fafc'};border-bottom:1px solid #eee;"><td style="padding:12px 14px;white-space:nowrap;font-weight:700;color:#0d3d6e;vertical-align:top;"><span style="display:inline-block;background:#0d3d6e;color:#fff;border-radius:4px;padding:2px 7px;font-size:12px;margin-right:6px;">${d.st}</span>${d.name}</td><td style="padding:12px 14px;vertical-align:top;"><a href="${d.dept}" target="_blank" style="color:#1a5fa8;text-decoration:none;font-weight:600;">🏛 Dept ↗</a></td><td style="padding:12px 14px;vertical-align:top;font-size:12px;color:#444;max-width:280px;">${d.law}</td><td style="padding:12px 14px;vertical-align:top;white-space:nowrap;"><a href="${d.complaint}" target="_blank" style="display:inline-block;background:#c8972a;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;text-decoration:none;">📋 File Complaint</a></td><td style="padding:12px 14px;vertical-align:top;font-size:12px;color:#666;max-width:200px;">${d.notes||'—'}</td></tr>`).join('');
+}
+
+</script>
+
+<!-- REGULATORY MAPS PAGE -->
+<div class="page" id="page-regulatory">
+  <div style="padding:40px 30px;max-width:1100px;margin:0 auto;">
+    <h1 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:2rem;margin-bottom:8px;">Regulatory Maps</h1>
+    <p style="color:#666;margin-bottom:30px;">Key regulatory reference maps for multi-state operations.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <div style="background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <h3 style="color:#0d3d6e;margin-bottom:12px;">🗺 NP Practice Authority</h3>
+        <p style="color:#555;font-size:14px;">Full Practice Authority vs. Reduced/Restricted states for Nurse Practitioners.</p>
+        <a href="https://www.aanp.org/advocacy/state/state-practice-environment" target="_blank" style="display:inline-block;margin-top:16px;background:#0d3d6e;color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:700;">View AANP Map ↗</a>
+      </div>
+      <div style="background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <h3 style="color:#0d3d6e;margin-bottom:12px;">🪪 LPC Compact States</h3>
+        <p style="color:#555;font-size:14px;">States participating in the Counseling Compact for multi-state LPC licensure.</p>
+        <a href="https://counselingcompact.org/compact-map/" target="_blank" style="display:inline-block;margin-top:16px;background:#0d3d6e;color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:700;">View Compact Map ↗</a>
+      </div>
+      <div style="background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <h3 style="color:#0d3d6e;margin-bottom:12px;">👩‍⚕️ Provider License Coverage</h3>
+        <p style="color:#555;font-size:14px;">Multi-state licensed providers across our portfolio.</p>
+        <button onclick="showPage('maps')" style="display:inline-block;margin-top:16px;background:#c8972a;color:#fff;padding:8px 18px;border-radius:6px;border:none;font-size:13px;font-weight:700;cursor:pointer;">View Coverage Maps</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORG CHART PAGE -->
+<div class="page" id="page-orgchart">
+  <div style="padding:40px 30px;max-width:1100px;margin:0 auto;">
+    <h1 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:2rem;margin-bottom:30px;">Organization Chart</h1>
+    <div style="text-align:center;">
+      <div style="display:inline-block;background:#0d3d6e;color:#fff;border-radius:10px;padding:14px 28px;margin-bottom:8px;">
+        <div style="font-weight:700;font-size:15px;">Dr. Syed Kazmi</div>
+        <div style="font-size:12px;color:#c8972a;">Director of Clinical Services</div>
+      </div>
+      <div style="width:2px;height:24px;background:#0d3d6e;margin:0 auto;"></div>
+      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:8px;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:2px;height:24px;background:#0d3d6e;"></div>
+          <div style="background:#1a5fa8;color:#fff;border-radius:10px;padding:12px 20px;min-width:180px;text-align:left;">
+            <div style="font-weight:700;font-size:14px;">Fathy Abdalla</div>
+            <div style="font-size:11px;color:#c8d8f0;">Director of Operations</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:2px;height:24px;background:#0d3d6e;"></div>
+          <div style="background:#1a5fa8;color:#fff;border-radius:10px;padding:12px 20px;min-width:180px;text-align:left;">
+            <div style="font-weight:700;font-size:14px;">Naheed Kazmi</div>
+            <div style="font-size:11px;color:#c8d8f0;">Director of Outreach</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:2px;height:24px;background:#0d3d6e;"></div>
+          <div style="background:#1a5fa8;color:#fff;border-radius:10px;padding:12px 20px;min-width:180px;text-align:left;">
+            <div style="font-weight:700;font-size:14px;">Lisa Donofrio</div>
+            <div style="font-size:11px;color:#c8d8f0;">Practice Manager</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:20px;">
+        <div style="background:#eef2ff;border:1px solid #dde3f0;border-radius:8px;padding:10px 16px;min-width:140px;">
+          <div style="font-weight:600;font-size:13px;color:#0d3d6e;">Shanker Labh</div>
+          <div style="font-size:11px;color:#666;">Billing Lead</div>
+        </div>
+        <div style="background:#eef2ff;border:1px solid #dde3f0;border-radius:8px;padding:10px 16px;min-width:140px;">
+          <div style="font-weight:600;font-size:13px;color:#0d3d6e;">Abdul Ahad</div>
+          <div style="font-size:11px;color:#666;">Credentialing Lead</div>
+        </div>
+        <div style="background:#eef2ff;border:1px solid #dde3f0;border-radius:8px;padding:10px 16px;min-width:140px;">
+          <div style="font-weight:600;font-size:13px;color:#0d3d6e;">Sarmad Khan</div>
+          <div style="font-size:11px;color:#666;">Credentialing Lead</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAFF DIRECTORY PAGE -->
+<div class="page" id="page-directory">
+  <div style="padding:40px 30px;max-width:1100px;margin:0 auto;">
+    <h1 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:2rem;margin-bottom:16px;">Staff Directory</h1>
+    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+      <input id="dirSearch" type="text" placeholder="🔍 Search staff..." oninput="filterDir()" style="flex:1;min-width:200px;padding:9px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;">
+      <select id="dirDept" onchange="filterDir()" style="padding:9px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;background:#fff;">
+        <option value="">All Departments</option>
+        <option>Leadership</option><option>Operations</option><option>Clinical</option>
+        <option>Credentialing</option><option>Billing</option><option>Outreach</option>
+      </select>
+    </div>
+    <div id="dirGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;"></div>
+  </div>
+</div>
+
+<!-- EMPLOYEE HANDBOOK PAGE -->
+<div class="page" id="page-handbook">
+  <div style="padding:40px 30px;max-width:1000px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+      <h1 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:2rem;">Employee Handbook</h1>
+      <a href="https://drive.google.com/file/d/1o-LV7D9jx473KxKVbRZTTBm3DEXTLl5A/view" target="_blank" style="background:#0d3d6e;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">📂 Open in Google Drive</a>
+    </div>
+    <div style="border:1px solid #dde3f0;border-radius:12px;overflow:hidden;height:75vh;min-height:500px;">
+      <iframe src="https://drive.google.com/file/d/1o-LV7D9jx473KxKVbRZTTBm3DEXTLl5A/preview" width="100%" height="100%" style="border:none;" allow="autoplay"></iframe>
+    </div>
+    <p style="color:#888;font-size:12px;margin-top:10px;text-align:center;">If the document doesn't load, <a href="https://drive.google.com/file/d/1o-LV7D9jx473KxKVbRZTTBm3DEXTLl5A/view" target="_blank" style="color:#1a5fa8;">open directly in Google Drive</a>.</p>
+  </div>
+</div>
+
+<!-- VISION 2026 PAGE -->
+<div class="page" id="page-vision">
+  <div style="background:#111;background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:18px 18px;padding:80px 40px;text-align:center;border-bottom:4px solid #3db83d;">
+    <div style="font-size:13px;font-weight:700;color:#3db83d;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;">TELETHERAPEUTICS HEALTH INC.</div>
+    <h1 style="font-family:'Barlow Condensed',sans-serif;font-size:3.5rem;color:#fff;margin-bottom:16px;letter-spacing:2px;">VISION 2026</h1>
+    <p style="color:#aaa;font-size:16px;max-width:600px;margin:0 auto 28px;font-style:italic;">"The best way to predict the future is to create it."</p>
+    <div style="display:inline-block;background:rgba(61,184,61,0.15);border:1px solid #3db83d;border-radius:30px;padding:10px 28px;">
+      <span style="color:#3db83d;font-weight:700;font-size:14px;">🎯 TARGET: 9 Active States by End of 2026</span>
+    </div>
+  </div>
+  <div style="padding:50px 30px;max-width:900px;margin:0 auto;">
+    <h2 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;margin-bottom:20px;">State Expansion Roadmap</h2>
+    <div id="visionStateList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+</div>
+
+<!-- SCA PAGE -->
+<div class="page" id="page-sca">
+  <div style="background:linear-gradient(135deg,#0d3d6e 0%,#1a5fa8 100%);padding:40px 30px;border-bottom:4px solid #c8972a;">
+    <h1 style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;color:#fff;margin-bottom:8px;">Single Case Agreements (SCA)</h1>
+    <p style="color:#c8d8f0;font-size:15px;max-width:800px;">Use timely access laws and MHPAEA to compel insurers to approve out-of-network services at in-network rates.</p>
+  </div>
+  <div style="padding:30px;max-width:1200px;margin:0 auto;">
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <input id="scaSearch" type="text" placeholder="🔍  Search by state..." oninput="filterSCA()" style="flex:1;min-width:200px;padding:10px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;">
+      <select id="scaRegion" onchange="filterSCA()" style="padding:10px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;background:#fff;">
+        <option value="">All Regions</option>
+        <option>Northeast</option><option>Southeast</option><option>Midwest</option>
+        <option>Southwest</option><option>West</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;border-radius:10px;border:1px solid #dde3f0;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:#0d3d6e;color:#fff;">
+            <th style="padding:12px 14px;text-align:left;white-space:nowrap;">State</th>
+            <th style="padding:12px 14px;text-align:left;">Insurance Dept</th>
+            <th style="padding:12px 14px;text-align:left;">Timely Access Law</th>
+            <th style="padding:12px 14px;text-align:left;white-space:nowrap;">File Complaint</th>
+            <th style="padding:12px 14px;text-align:left;">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="scaTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
