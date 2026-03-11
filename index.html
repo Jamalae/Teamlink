@@ -1780,29 +1780,25 @@ function renderSCA(rows){
 
 </script>
 </body>
+  <script>
 (function() {
-    // Save the old function
     const realShowPage = window.showPage;
     let manualSwitchActive = false;
 
-    // Overwrite showPage with a "Gatekeeper"
     window.showPage = function(id) {
-        // If we just clicked a tab, ignore any 'home' calls for the next half-second
         if (id === 'home' && manualSwitchActive) {
-            console.log("🛑 INTERCEPTED: Blocked the ghost-click to Home.");
+            console.log("Blocked the ghost-click to Home.");
             return; 
         }
-
-        console.log("✅ GOING TO:", id);
-        realShowPage(id);
+        console.log("Going to page:", id);
+        if (typeof realShowPage === 'function') {
+            realShowPage(id);
+        }
     };
 
-    // Attach a "Gate" to all nav links
     document.querySelectorAll('nav a, .nav-item').forEach(link => {
         link.addEventListener('mousedown', function() {
-            // This turns on the "ignore home" shield
             manualSwitchActive = true;
-            // This turns off the shield after 500ms
             setTimeout(() => { manualSwitchActive = false; }, 500);
         });
     });
