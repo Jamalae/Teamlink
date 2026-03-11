@@ -1781,26 +1781,39 @@ function renderSCA(rows){
 </script>
 </body>
   <script>
-(function() {
-    const realShowPage = window.showPage;
-    let manualSwitchActive = false;
+<script>
+    (function() {
+        // 1. Capture the original navigation function
+        const realShowPage = window.showPage;
+        let manualSwitchActive = false;
 
-    window.showPage = function(id) {
-        if (id === 'home' && manualSwitchActive) {
-            console.log("Blocked the ghost-click to Home.");
-            return; 
-        }
-        console.log("Going to page:", id);
-        if (typeof realShowPage === 'function') {
-            realShowPage(id);
-        }
-    };
+        // 2. The Interceptor: Prevents accidental resets to home
+        window.showPage = function(id) {
+            if (id === 'home' && manualSwitchActive) {
+                console.log("Blocked the ghost-click to Home.");
+                return; 
+            }
+            console.log("Switching to:", id);
+            if (typeof realShowPage === 'function') {
+                realShowPage(id);
+            }
+        };
 
-    document.querySelectorAll('nav a, .nav-item').forEach(link => {
-        link.addEventListener('mousedown', function() {
-            manualSwitchActive = true;
-            setTimeout(() => { manualSwitchActive = false; }, 500);
+        // 3. The Shield: Active for 500ms after you click a tab
+        document.querySelectorAll('nav a, .nav-item, [onclick*="showPage"]').forEach(link => {
+            link.addEventListener('mousedown', function() {
+                manualSwitchActive = true;
+                setTimeout(() => { manualSwitchActive = false; }, 500);
+            });
         });
-    });
-})();
-</script>
+
+        // 4. Google Drive Fix: Attempt to fix the 401 error by ensuring /preview mode
+        document.querySelectorAll('iframe[src*="drive.google.com"]').forEach(frame => {
+            if (frame.src.includes('/view') || frame.src.includes('/edit')) {
+                frame.src = frame.src.replace(/\/view.*|\/edit.*/, '/preview');
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
