@@ -1783,36 +1783,27 @@ function renderSCA(rows){
   <script>
 <script>
     (function() {
-        // 1. Capture the original navigation function
-        const realShowPage = window.showPage;
-        let manualSwitchActive = false;
+        var originalShowPage = window.showPage;
+        var shield = false;
 
-        // 2. The Interceptor: Prevents accidental resets to home
         window.showPage = function(id) {
-            if (id === 'home' && manualSwitchActive) {
-                console.log("Blocked the ghost-click to Home.");
-                return; 
+            if (id === 'home' && shield) {
+                console.log("Blocked ghost-click to home.");
+                return;
             }
-            console.log("Switching to:", id);
-            if (typeof realShowPage === 'function') {
-                realShowPage(id);
+            console.log("Navigating to: " + id);
+            if (typeof originalShowPage === 'function') {
+                originalShowPage(id);
             }
         };
 
-        // 3. The Shield: Active for 500ms after you click a tab
-        document.querySelectorAll('nav a, .nav-item, [onclick*="showPage"]').forEach(link => {
-            link.addEventListener('mousedown', function() {
-                manualSwitchActive = true;
-                setTimeout(() => { manualSwitchActive = false; }, 500);
+        var links = document.querySelectorAll('nav a, .nav-item, [onclick*="showPage"]');
+        for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('mousedown', function() {
+                shield = true;
+                setTimeout(function() { shield = false; }, 700);
             });
-        });
-
-        // 4. Google Drive Fix: Attempt to fix the 401 error by ensuring /preview mode
-        document.querySelectorAll('iframe[src*="drive.google.com"]').forEach(frame => {
-            if (frame.src.includes('/view') || frame.src.includes('/edit')) {
-                frame.src = frame.src.replace(/\/view.*|\/edit.*/, '/preview');
-            }
-        });
+        }
     })();
     </script>
 </body>
