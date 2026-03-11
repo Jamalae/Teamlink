@@ -1782,26 +1782,31 @@ function renderSCA(rows){
 </body>
 </html>
 <script>
-// 1. Force the page to ignore any 'Home' reset listeners on the nav/logo
-document.querySelectorAll('nav a, .nav-logo').forEach(link => {
-    link.addEventListener('click', function(e) {
-        // This stops the click from "bubbling" up to the buggy listener
-        e.stopPropagation(); 
-        
-        // Extract the ID from your 'nav-home', 'nav-orgchart' etc.
-        const pageId = this.id.replace('nav-', '');
-        if(pageId) {
-            console.log("Nuclear Fix triggering:", pageId);
-            showPage(pageId);
-        }
-    }, true); // The 'true' here makes this listener fire FIRST
-});
+(function() {
+    // Save the old function
+    const realShowPage = window.showPage;
+    let manualSwitchActive = false;
 
-// 2. Fix the Google Drive Embed (Change your iframe URL to use /preview)
-document.querySelectorAll('iframe[src*="drive.google.com"]').forEach(iframe => {
-    let src = iframe.src;
-    if (src.includes('/edit')) {
-        iframe.src = src.replace('/edit', '/preview');
-    }
-});
+    // Overwrite showPage with a "Gatekeeper"
+    window.showPage = function(id) {
+        // If we just clicked a tab, ignore any 'home' calls for the next half-second
+        if (id === 'home' && manualSwitchActive) {
+            console.log("🛑 INTERCEPTED: Blocked the ghost-click to Home.");
+            return; 
+        }
+
+        console.log("✅ GOING TO:", id);
+        realShowPage(id);
+    };
+
+    // Attach a "Gate" to all nav links
+    document.querySelectorAll('nav a, .nav-item').forEach(link => {
+        link.addEventListener('mousedown', function() {
+            // This turns on the "ignore home" shield
+            manualSwitchActive = true;
+            // This turns off the shield after 500ms
+            setTimeout(() => { manualSwitchActive = false; }, 500);
+        });
+    });
+})();
 </script>
