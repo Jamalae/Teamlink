@@ -1778,104 +1778,78 @@ function renderSCA(rows){
   const tbl=document.createElement('table'); tbl.style='width:100%;border-collapse:collapse;font-size:13px;'; tbl.innerHTML='<thead><tr style="background:#0d3d6e;color:#fff;"><th style="padding:10px 14px;text-align:left;">State</th><th style="padding:10px 14px;text-align:left;">Department</th><th style="padding:10px 14px;text-align:left;">Law / Statute</th><th style="padding:10px 14px;text-align:left;">File Complaint</th><th style="padding:10px 14px;text-align:left;">Notes</th></tr></thead><tbody id="scaTbodyInner"></tbody>'; tbody.innerHTML=''; tbody.appendChild(tbl); const inner=document.getElementById('scaTbodyInner'); inner.innerHTML=rows.map((d,i)=>`<tr style="background:${i%2===0?'#fff':'#f8fafc'};border-bottom:1px solid #eee;"><td style="padding:12px 14px;white-space:nowrap;font-weight:700;color:#0d3d6e;vertical-align:top;"><span style="display:inline-block;background:#0d3d6e;color:#fff;border-radius:4px;padding:2px 7px;font-size:12px;margin-right:6px;">${d.st}</span>${d.name}</td><td style="padding:12px 14px;vertical-align:top;"><a href="${d.dept}" target="_blank" style="color:#1a5fa8;text-decoration:none;font-weight:600;">🏛 Dept ↗</a></td><td style="padding:12px 14px;vertical-align:top;font-size:12px;color:#444;max-width:280px;">${d.law}</td><td style="padding:12px 14px;vertical-align:top;white-space:nowrap;"><a href="${d.complaint}" target="_blank" style="display:inline-block;background:#c8972a;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;text-decoration:none;">📋 File Complaint</a></td><td style="padding:12px 14px;vertical-align:top;font-size:12px;color:#666;max-width:200px;">${d.notes||'—'}</td></tr>`).join('');
 }
 
-</script>
-</body>
- 
-  ... your entire HTML above ...
-<!-- NAVIGATION SCRIPT -->
 <script>
 (function () {
   'use strict';
 
   const DEFAULT_PAGE = 'home';
-  const PAGE_SELECTOR = '.page';
-  const TAB_SELECTOR = '[data-page]';
-  const LOGO_SELECTOR = '.nav-logo';
-  const ACTIVE_CLASS = 'active';
 
   function getPages() {
-    return Array.from(document.querySelectorAll(PAGE_SELECTOR));
+    return Array.from(document.querySelectorAll('.page'));
   }
 
   function getTabs() {
-    return Array.from(document.querySelectorAll(TAB_SELECTOR));
+    return Array.from(document.querySelectorAll('[data-page]'));
   }
 
-  function pageExists(pageId) {
-    return !!document.getElementById(pageId);
-  }
+  function showPage(pageId, updateHash = true) {
+    const target = document.getElementById(pageId);
+    if (!target) {
+      console.log('showPage failed:', pageId);
+      return;
+    }
 
-  function normalizePageId(pageId) {
-    if (typeof pageId !== 'string') return DEFAULT_PAGE;
-    const trimmed = pageId.trim();
-    return pageExists(trimmed) ? trimmed : DEFAULT_PAGE;
-  }
+    console.log('showPage called:', pageId);
 
-  function hideAllPages() {
     getPages().forEach((page) => {
       page.style.display = 'none';
-      page.classList.remove(ACTIVE_CLASS);
+      page.classList.remove('active');
     });
-  }
 
-  function deactivateAllTabs() {
     getTabs().forEach((tab) => {
-      tab.classList.remove(ACTIVE_CLASS);
+      tab.classList.remove('active');
     });
-  }
-
-  function activateTab(pageId) {
-    getTabs().forEach((tab) => {
-      const tabPage = tab.getAttribute('data-page');
-      tab.classList.toggle(ACTIVE_CLASS, tabPage === pageId);
-    });
-  }
-
-  function showPage(pageId) {
-    const safePageId = normalizePageId(pageId);
-    const target = document.getElementById(safePageId);
-    if (!target) return;
-
-    hideAllPages();
-    deactivateAllTabs();
 
     target.style.display = 'block';
-    target.classList.add(ACTIVE_CLASS);
+    target.classList.add('active');
 
-    activateTab(safePageId);
+    getTabs().forEach((tab) => {
+      if (tab.getAttribute('data-page') === pageId) {
+        tab.classList.add('active');
+      }
+    });
+
+    if (updateHash) {
+      history.replaceState(null, '', '#' + pageId);
+    }
   }
 
   window.showPage = showPage;
 
-  document.addEventListener(
-    'click',
-    function (event) {
-      const tab = event.target.closest(TAB_SELECTOR);
-      if (!tab) return;
+  document.addEventListener('click', function (event) {
+    const tab = event.target.closest('[data-page]');
+    if (!tab) return;
 
+    event.preventDefault();
+    event.stopPropagation();
+
+    const pageId = tab.getAttribute('data-page');
+    console.log('tab clicked:', pageId);
+    showPage(pageId);
+  });
+
+  const logo = document.querySelector('.nav-logo');
+  if (logo) {
+    logo.onclick = function (event) {
       event.preventDefault();
       event.stopPropagation();
-      event.stopImmediatePropagation();
-
-      const pageId = tab.getAttribute('data-page');
-      showPage(pageId);
-    },
-    true
-  );
-
-  const logo = document.querySelector(LOGO_SELECTOR);
-  if (logo) {
-    logo.addEventListener('click', function (event) {
-      event.preventDefault();
       showPage(DEFAULT_PAGE);
-    });
+    };
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    showPage(DEFAULT_PAGE);
+  window.addEventListener('DOMContentLoaded', function () {
+    const hash = window.location.hash.replace('#', '').trim();
+    showPage(hash || DEFAULT_PAGE, false);
   });
 })();
 </script>
-
-</body>
-</html>
