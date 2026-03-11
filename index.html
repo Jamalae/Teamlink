@@ -1781,3 +1781,27 @@ function renderSCA(rows){
 </script>
 </body>
 </html>
+<script>
+// 1. Force the page to ignore any 'Home' reset listeners on the nav/logo
+document.querySelectorAll('nav a, .nav-logo').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // This stops the click from "bubbling" up to the buggy listener
+        e.stopPropagation(); 
+        
+        // Extract the ID from your 'nav-home', 'nav-orgchart' etc.
+        const pageId = this.id.replace('nav-', '');
+        if(pageId) {
+            console.log("Nuclear Fix triggering:", pageId);
+            showPage(pageId);
+        }
+    }, true); // The 'true' here makes this listener fire FIRST
+});
+
+// 2. Fix the Google Drive Embed (Change your iframe URL to use /preview)
+document.querySelectorAll('iframe[src*="drive.google.com"]').forEach(iframe => {
+    let src = iframe.src;
+    if (src.includes('/edit')) {
+        iframe.src = src.replace('/edit', '/preview');
+    }
+});
+</script>
