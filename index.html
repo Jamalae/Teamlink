@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- TeamLink v3.24 TAB-FIX -->
+<!-- TeamLink v3.26 DUPE-FIX -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -195,7 +195,7 @@ body{font-family:'Barlow',sans-serif;background:var(--gray-100);color:var(--navy
 </nav>
 
 <!-- HOME -->
-<div class="page" id="page-home">
+<div class="page active" id="page-home">
   <div class="home-hero">
     <div class="home-welcome">Teletherapeutics Health Inc. · Internal Portal</div>
     <div class="home-title">TeamLink</div>
@@ -1376,13 +1376,13 @@ function showPage(id){
   console.log("showPage called:", id);
   ALL_PAGES.forEach(function(p){
     var el=document.getElementById('page-'+p);
-    if(el){ el.style.display='none'; el.classList.remove('active'); }
+    if(el) el.style.display='none';
     var nav=document.getElementById('nav-'+p);
     if(nav) nav.classList.remove('active');
   });
   var pg=document.getElementById('page-'+id);
   var nv=document.getElementById('nav-'+id);
-  if(pg){ pg.style.display='block'; pg.classList.add('active'); }
+  if(pg) pg.style.display='block';
   if(nv) nv.classList.add('active');
   if(id==='credentialing') initCred();
   if(id==='maps') initMaps();
@@ -1392,11 +1392,8 @@ function showPage(id){
   if(id==='regulatory'){setTimeout(function(){renderNPMap();},10);}
 }
 
-['home','credentialing','maps','regulatory','orgchart','directory','meetteam','handbook','vision','sca'].forEach(function(id){
-  var el = document.getElementById('nav-'+id);
-  if(el) el.addEventListener('click', function(e){ e.preventDefault(); showPage(id); });
-});
-document.querySelector('.nav-logo').addEventListener('click', function(){ showPage('home'); });
+// nav clicks handled by inline onclick handlers
+// nav-logo click handled by inline onclick
 // Initialize: hide all pages, then show home
 showPage('home');
 
