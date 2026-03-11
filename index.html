@@ -1780,30 +1780,102 @@ function renderSCA(rows){
 
 </script>
 </body>
-  <script>
- (function() {
-        var originalShowPage = window.showPage;
-        var shield = false;
+ 
+  ... your entire HTML above ...
+<!-- NAVIGATION SCRIPT -->
+<script>
+(function () {
+  'use strict';
 
-        window.showPage = function(id) {
-            if (id === 'home' && shield) {
-                console.log("Blocked ghost-click to home.");
-                return;
-            }
-            console.log("Navigating to: " + id);
-            if (typeof originalShowPage === 'function') {
-                originalShowPage(id);
-            }
-        };
+  const DEFAULT_PAGE = 'home';
+  const PAGE_SELECTOR = '.page';
+  const TAB_SELECTOR = '[data-page]';
+  const LOGO_SELECTOR = '.nav-logo';
+  const ACTIVE_CLASS = 'active';
 
-        var links = document.querySelectorAll('nav a, .nav-item, [onclick*="showPage"]');
-        for (var i = 0; i < links.length; i++) {
-            links[i].addEventListener('mousedown', function() {
-                shield = true;
-                setTimeout(function() { shield = false; }, 700);
-            });
-        }
-    })();
-    </script>
+  function getPages() {
+    return Array.from(document.querySelectorAll(PAGE_SELECTOR));
+  }
+
+  function getTabs() {
+    return Array.from(document.querySelectorAll(TAB_SELECTOR));
+  }
+
+  function pageExists(pageId) {
+    return !!document.getElementById(pageId);
+  }
+
+  function normalizePageId(pageId) {
+    if (typeof pageId !== 'string') return DEFAULT_PAGE;
+    const trimmed = pageId.trim();
+    return pageExists(trimmed) ? trimmed : DEFAULT_PAGE;
+  }
+
+  function hideAllPages() {
+    getPages().forEach((page) => {
+      page.style.display = 'none';
+      page.classList.remove(ACTIVE_CLASS);
+    });
+  }
+
+  function deactivateAllTabs() {
+    getTabs().forEach((tab) => {
+      tab.classList.remove(ACTIVE_CLASS);
+    });
+  }
+
+  function activateTab(pageId) {
+    getTabs().forEach((tab) => {
+      const tabPage = tab.getAttribute('data-page');
+      tab.classList.toggle(ACTIVE_CLASS, tabPage === pageId);
+    });
+  }
+
+  function showPage(pageId) {
+    const safePageId = normalizePageId(pageId);
+    const target = document.getElementById(safePageId);
+    if (!target) return;
+
+    hideAllPages();
+    deactivateAllTabs();
+
+    target.style.display = 'block';
+    target.classList.add(ACTIVE_CLASS);
+
+    activateTab(safePageId);
+  }
+
+  window.showPage = showPage;
+
+  document.addEventListener(
+    'click',
+    function (event) {
+      const tab = event.target.closest(TAB_SELECTOR);
+      if (!tab) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      const pageId = tab.getAttribute('data-page');
+      showPage(pageId);
+    },
+    true
+  );
+
+  const logo = document.querySelector(LOGO_SELECTOR);
+  if (logo) {
+    logo.addEventListener('click', function (event) {
+      event.preventDefault();
+      showPage(DEFAULT_PAGE);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    showPage(DEFAULT_PAGE);
+  });
+})();
+</script>
+
 </body>
 </html>
