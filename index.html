@@ -196,7 +196,7 @@ body{font-family:'Barlow',sans-serif;background:var(--gray-100);color:var(--navy
 
 <!-- HOME -->
 <div class="page active" id="page-home">
-  <div class="page" id="page-orgchart"></div>
+ 
     <div class="home-welcome">Teletherapeutics Health Inc. · Internal Portal</div>
     <div class="home-title">TeamLink</div>
     <div class="home-subtitle">Your centralized hub for operations, credentialing, staff resources, and brand tools.</div>
@@ -1376,13 +1376,13 @@ function showPage(id){
   console.log("showPage called:", id);
   ALL_PAGES.forEach(function(p){
     var el=document.getElementById('page-'+p);
-    if(el) el.style.display='none';
+    if(el) el.classList.remove('active');
     var nav=document.getElementById('nav-'+p);
     if(nav) nav.classList.remove('active');
   });
   var pg=document.getElementById('page-'+id);
   var nv=document.getElementById('nav-'+id);
-  if(pg) pg.style.display='block';
+  if(pg) pg.classList.add('active');
   if(nv) nv.classList.add('active');
   if(id==='credentialing') initCred();
   if(id==='maps') initMaps();
