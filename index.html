@@ -585,17 +585,526 @@ body{font-family:'Barlow',sans-serif;background:var(--gray-100);color:var(--navy
 
 <!-- STAFF DIRECTORY PAGE -->
 <div class="page" id="page-directory">
-  <div style="padding:40px 30px;max-width:1100px;margin:0 auto;">
-    <h1 style="color:#0d3d6e;font-family:'Barlow Condensed',sans-serif;font-size:2rem;margin-bottom:16px;">Staff Directory</h1>
-    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
-      <input id="dirSearch" type="text" placeholder="🔍 Search staff..." oninput="filterDir()" style="flex:1;min-width:200px;padding:9px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;">
-      <select id="dirDept" onchange="filterDir()" style="padding:9px 14px;border:1px solid #dde3f0;border-radius:8px;font-size:14px;background:#fff;">
-        <option value="">All Departments</option>
-        <option>Leadership</option><option>Operations</option><option>Clinical</option>
-        <option>Credentialing</option><option>Billing</option><option>Outreach</option>
-      </select>
+  <div class="page-hero">
+    <div class="hero-label">Teletherapeutics Health Inc. · Internal Portal</div>
+    <h1 class="hero-title" style="font-size:2rem;">Staff Directory</h1>
+    <p class="hero-subtitle" style="margin-top:4px;">Contact information for all staff across Admin, Virtual Assistants, Providers, and Billing.</p>
+  </div>
+  <div class="main-content">
+    <div style="margin-bottom:20px;">
+      <div style="position:relative;">
+        <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="dir-search" type="text" placeholder="Search by name or title..." oninput="dirFilter()" style="width:100%;box-sizing:border-box;padding:10px 12px 10px 38px;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:var(--white);color:var(--navy);">
+      </div>
     </div>
-    <div id="dirGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;"></div>
+    <div style="display:flex;border-bottom:2px solid var(--navy-light);margin-bottom:20px;overflow-x:auto;">
+      <button onclick="dirTab('admin')" id="dir-tab-admin" style="padding:10px 18px;border:none;background:none;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);border-bottom:3px solid var(--gold);margin-bottom:-2px;white-space:nowrap;">Admin (13)</button>
+      <button onclick="dirTab('vas')" id="dir-tab-vas" style="padding:10px 18px;border:none;background:none;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;">Virtual Assistants (15)</button>
+      <button onclick="dirTab('providers')" id="dir-tab-providers" style="padding:10px 18px;border:none;background:none;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;">Providers (33)</button>
+      <button onclick="dirTab('billing')" id="dir-tab-billing" style="padding:10px 18px;border:none;background:none;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;">Billing (6)</button>
+    </div>
+    <div id="dir-panel-admin" style="background:var(--white);border-radius:12px;overflow:auto;border:1px solid var(--gray-200);box-shadow:0 2px 8px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--navy-mid);border-bottom:2px solid var(--gold);">
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Name</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Title</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Email</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;">Phone</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Ext</th>
+</tr></thead><tbody>
+<tr class="dir-row" data-name="yasir ahmad" data-title="president" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Yasir Ahmad</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">President</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:yasir.ahmad@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">yasir.ahmad@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(732) 485-1301</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">101</td>
+</tr>
+<tr class="dir-row" data-name="sameera daud" data-title="executive assistant" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sameera Daud</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Executive Assistant</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sameera.daud@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sameera.daud@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">732-789-7515</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">No ext</td>
+</tr>
+<tr class="dir-row" data-name="fathy abdalla" data-title="director of operations" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Fathy Abdalla</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Director of Operations</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:fathy@hamiltonbehavioral.com" style="color:var(--gold);text-decoration:none;">fathy@hamiltonbehavioral.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(862) 812-0647 (551) 362-8229</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41333</td>
+</tr>
+<tr class="dir-row" data-name="lisa donofrio" data-title="practice manager" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Lisa Donofrio</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Practice Manager</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:lisa.donofrio@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">lisa.donofrio@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(201) 248-0777</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41298</td>
+</tr>
+<tr class="dir-row" data-name="syed kazmi" data-title="director of clinical srv" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Syed Kazmi</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Director of Clinical Srv</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:syed.kazmimd@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">syed.kazmimd@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(909) 919-9766</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41316</td>
+</tr>
+<tr class="dir-row" data-name="naheed kazmi" data-title="director of outreach" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Naheed Kazmi</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Director of Outreach</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:nuz.kazmi@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">nuz.kazmi@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(917) 319-3490</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41307, 786</td>
+</tr>
+<tr class="dir-row" data-name="shanker labh" data-title="billing manager" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Shanker Labh</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Billing Manager</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:shanker.labh@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">shanker.labh@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(732) 877-0080</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">124</td>
+</tr>
+<tr class="dir-row" data-name="sarah massuchi" data-title="billing manager" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sarah Massuchi</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Billing Manager</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sarah.massuchi@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sarah.massuchi@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+</tr>
+<tr class="dir-row" data-name="arsal khan" data-title="it specialist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Arsal Khan</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">IT Specialist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:arsal.khan@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">arsal.khan@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(201) 201-9090</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">112</td>
+</tr>
+<tr class="dir-row" data-name="valerio pizzoferrato" data-title="application developer" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Valerio Pizzoferrato</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Application Developer</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:valerio.pizzoferrato@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">valerio.pizzoferrato@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+</tr>
+<tr class="dir-row" data-name="wesley tarver" data-title="recruiter" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Wesley Tarver</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Recruiter</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:wesley.tarver@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">wesley.tarver@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+</tr>
+<tr class="dir-row" data-name="holly moore" data-title="recruiter" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Holly Moore</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Recruiter</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:holly.moore@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">holly.moore@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+</tr>
+<tr class="dir-row" data-name="bruce sherman" data-title="mcp" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Bruce Sherman</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">MCP</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:bruce.sherman@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">bruce.sherman@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41295</td>
+</tr>
+</tbody></table></div>
+    <div id="dir-panel-vas" style="display:none;background:var(--white);border-radius:12px;overflow:auto;border:1px solid var(--gray-200);box-shadow:0 2px 8px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--navy-mid);border-bottom:2px solid var(--gold);">
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Name</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Title</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Email</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;">Phone</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Ext</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">States</th></tr></thead><tbody>
+<tr class="dir-row" data-name="amna zulfiqar" data-title="marketing" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Amna Zulfiqar</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Marketing</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:amna.zulfiqar@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">amna.zulfiqar@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41332</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="angelica dela hoz" data-title="clinical admin, scheduler, biller, supervisor" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Angelica dela Hoz</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Clinical Admin, Scheduler, Biller, Supervisor</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:angelica.delahoz@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">angelica.delahoz@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41328</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="bea crissel barrot" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Bea Crissel Barrot</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:bea.barrot@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">bea.barrot@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41330</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="eileen mason" data-title="practice admin, scheduler, biller" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Eileen Mason</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Practice Admin, Scheduler, Biller</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:eileen.mason@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">eileen.mason@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41303</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY, WA</td></tr>
+<tr class="dir-row" data-name="jeancarla costales" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">JeanCarla Costales</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:jeancarla.costales@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">jeancarla.costales@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41329</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="jellene correa" data-title="clinical admin, scheduler, biller" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Jellene Correa</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Clinical Admin, Scheduler, Biller</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:jellene.correa@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">jellene.correa@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41320</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="jemmimah joy oriendo" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Jemmimah Joy Oriendo</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:jemmimah.joyoriendo@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">jemmimah.joyoriendo@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41333</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="joaschel aguimatang" data-title="scheduler" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Joaschel Aguimatang</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:joaschel.aguimatang@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">joaschel.aguimatang@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41331</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="josette guillano" data-title="clinical admin, scheduler, biller" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Josette Guillano</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Clinical Admin, Scheduler, Biller</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:josette.guillano@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">josette.guillano@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41326</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="maureen pacia" data-title="clinical admin, scheduler, biller" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Maureen Pacia</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Clinical Admin, Scheduler, Biller</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:maureen.pacia@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">maureen.pacia@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41315</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="rica ronquillo" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Rica Ronquillo</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:rica.ronquillo@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">rica.ronquillo@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41327</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="russel jane marino" data-title="scheduler" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Russel Jane Marino</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:russeljane.marino@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">russeljane.marino@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41334</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="ryam sarabosing" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Ryam Sarabosing</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:ryam.sarabosing@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">ryam.sarabosing@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41321</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+<tr class="dir-row" data-name="yasir ahmad" data-title="admin" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Yasir Ahmad</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Admin</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:yasir.ahmad@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">yasir.ahmad@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">101</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td></tr>
+<tr class="dir-row" data-name="zenzen zuniga" data-title="scheduler" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Zenzen Zuniga</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Scheduler</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:zenzen.zuniga@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">zenzen.zuniga@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41322</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">All States</td></tr>
+</tbody></table></div>
+    <div id="dir-panel-providers" style="display:none;background:var(--white);border-radius:12px;overflow:auto;border:1px solid var(--gray-200);box-shadow:0 2px 8px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--navy-mid);border-bottom:2px solid var(--gold);">
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Name</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Title</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Email</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;">Phone</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Ext</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">States</th></tr></thead><tbody>
+<tr class="dir-row" data-name="adrian green" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Adrian Green</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:adrian.green@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">adrian.green@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NC</td></tr>
+<tr class="dir-row" data-name="anthony joseph koch" data-title="" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Anthony Joseph Koch</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">—</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:anthony.koch@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">anthony.koch@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">330-398-1132</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="casey nobile" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Casey Nobile</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:casey.nobile@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">casey.nobile@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41327</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">FL</td></tr>
+<tr class="dir-row" data-name="cesar mardones" data-title="" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Cesar Mardones</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">—</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="charles cheek" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Charles Cheek</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:charles.cheek@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">charles.cheek@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">111</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="chioma ahaiwe" data-title="pmhnp" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Chioma Ahaiwe</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">PMHNP</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:chioma.ahaiwe@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">chioma.ahaiwe@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41301</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="demetric marsh" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Demetric Marsh</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:demetric.marsh@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">demetric.marsh@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">119</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NC, WA</td></tr>
+<tr class="dir-row" data-name="dhaval patel, md" data-title="md" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Dhaval Patel, MD</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">MD</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:dhaval.patel@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">dhaval.patel@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41305</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="elaine maher" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Elaine Maher</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:elaine.maher@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">elaine.maher@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41311</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA, AZ</td></tr>
+<tr class="dir-row" data-name="elmer wiscovitch" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Elmer Wiscovitch</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:elmer.wiscovitch@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">elmer.wiscovitch@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41317</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">FL</td></tr>
+<tr class="dir-row" data-name="hiawatha sanford" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Hiawatha Sanford</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:hiawatha.sanford@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">hiawatha.sanford@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41299</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="iona price-feinstein" data-title="supervisor/therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Iona Price-Feinstein</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Supervisor/Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:iona.pricefeinstein@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">iona.pricefeinstein@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">108</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="janet barber" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Janet Barber</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:janet.barber@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">janet.barber@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">201</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA, NY, AZ</td></tr>
+<tr class="dir-row" data-name="jennifer mcglynn" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Jennifer McGlynn</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:jennifer.mcglynn@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">jennifer.mcglynn@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41334</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="john jaco" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">John Jaco</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:john.jaco@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">john.jaco@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">107</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="kariana yulfo" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">KariAna Yulfo</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:kariana.yulfo@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">kariana.yulfo@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(787) 235-6222</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41326</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">FL</td></tr>
+<tr class="dir-row" data-name="kimberly brooks" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Kimberly Brooks</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:kim@yahoo.com" style="color:var(--gold);text-decoration:none;">kim@yahoo.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="komiya wilks" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Komiya Wilks</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:komiya.wilks@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">komiya.wilks@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41302</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="kristen curry kirik" data-title="supervisor/therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Kristen Curry KirIk</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Supervisor/Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:kristen.curry@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">kristen.curry@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">103</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">PA, WA</td></tr>
+<tr class="dir-row" data-name="leta meyers" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Leta Meyers</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:leta.myers@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">leta.myers@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41312</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="lora hebert" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Lora Hebert</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:lora.hebert@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">lora.hebert@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="milin chaput" data-title="therapist lcsw" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">MiLin Chaput</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist LCSW</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:milin.chaput@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">milin.chaput@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="minela avdic, pmhnp" data-title="phmhn" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Minela Avdic, PMHNP</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">PHMHN</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:minela.avdic@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">minela.avdic@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(201) 873-2462</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41329</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">WA</td></tr>
+<tr class="dir-row" data-name="naheed akhtar, md" data-title="md" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Naheed Akhtar, MD</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">MD</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:naheed.akhtar@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">naheed.akhtar@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="naveen rahman" data-title="" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Naveen Rahman</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">—</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">NY</td></tr>
+<tr class="dir-row" data-name="nichole halverson" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Nichole Halverson</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:nichole.halverson@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">nichole.halverson@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">106</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">PA</td></tr>
+<tr class="dir-row" data-name="nicole gordon" data-title="therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Nicole Gordon</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:nicolegordon@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">nicolegordon@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">104</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">PA, WA</td></tr>
+<tr class="dir-row" data-name="sanaa subhani" data-title="therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sanaa Subhani</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sanaa.subhani@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sanaa.subhani@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(510) 932-5628</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="sara massuci" data-title="" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sara Massuci</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">—</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td></tr>
+<tr class="dir-row" data-name="sophia morelli" data-title="supervisor/therapist" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sophia Morelli</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Supervisor/Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sophia.morelli@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sophia.morelli@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">113</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="stephen eschun, pmhnp" data-title="pmhnp" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Stephen Eschun, PMHNP</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">PMHNP</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:stephen.eshun@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">stephen.eshun@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41314</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">CA</td></tr>
+<tr class="dir-row" data-name="susan virtis younger" data-title="" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Susan Virtis Younger</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">—</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:susan.virtisyounger@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">susan.virtisyounger@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td></tr>
+<tr class="dir-row" data-name="vanessa khan" data-title="supervisor/therapist" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Vanessa Khan</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Supervisor/Therapist</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:vanessa.khan@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">vanessa.khan@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">121</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">FL, WA</td></tr>
+</tbody></table></div>
+    <div id="dir-panel-billing" style="display:none;background:var(--white);border-radius:12px;overflow:auto;border:1px solid var(--gray-200);box-shadow:0 2px 8px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:var(--navy-mid);border-bottom:2px solid var(--gold);">
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Name</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Title</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Email</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;">Phone</th>
+<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);">Ext</th>
+</tr></thead><tbody>
+<tr class="dir-row" data-name="abdul ahad" data-title="credentialing lead" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Abdul Ahad</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Credentialing Lead</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:abdul.ahad@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">abdul.ahad@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">781-373-8199</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41319</td>
+</tr>
+<tr class="dir-row" data-name="abrar salik" data-title="credentialing" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Abrar Salik</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Credentialing</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:abrar.salik@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">abrar.salik@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">480-520-9274</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41322</td>
+</tr>
+<tr class="dir-row" data-name="ahtisham tahir" data-title="credentialing" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Ahtisham Tahir</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Credentialing</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:ahtisham.thomas@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">ahtisham.thomas@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">(781) 373-8199</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41319</td>
+</tr>
+<tr class="dir-row" data-name="labh shanker" data-title="billing lead" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Labh Shanker</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Billing Lead</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:shanker@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">shanker@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">310-751-2840</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41313</td>
+</tr>
+<tr class="dir-row" data-name="sarmad khan" data-title="2nd credentialing lead" style="">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sarmad Khan</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">2nd Credentialing Lead</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sarmadali.khan@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sarmadali.khan@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">623-600-4696</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">41310</td>
+</tr>
+<tr class="dir-row" data-name="sidra firaz" data-title="credentialing" style="background:rgba(30,46,66,0.03);">
+<td style="padding:9px 12px;font-weight:600;color:var(--navy);font-size:13px;">Sidra Firaz</td>
+<td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;">Credentialing</td>
+<td style="padding:9px 12px;font-size:12px;color:var(--gray-600);"><a href="mailto:sidra.firaz@teletherapeuticsinc.com" style="color:var(--gold);text-decoration:none;">sidra.firaz@teletherapeuticsinc.com</a></td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;white-space:nowrap;">—</td>
+<td style="padding:9px 12px;color:var(--gray-400);font-size:12px;">—</td>
+</tr>
+</tbody></table></div>
+    <p style="text-align:center;color:var(--gray-400);font-size:11px;margin-top:16px;">To request updates contact <a href="mailto:admin@teletherapeuticsinc.com" style="color:var(--gold);">admin@teletherapeuticsinc.com</a></p>
   </div>
 </div>
 
@@ -3018,6 +3527,36 @@ setTimeout(function(){
 // Pre-initialize SCA on page load so it's ready instantly when tab is clicked
 filterSCA();
 
+
+// STAFF DIRECTORY FUNCTIONS
+function dirTab(tab) {
+  document.querySelectorAll('[id^="dir-panel-"]').forEach(function(p){p.style.display='none';});
+  document.querySelectorAll('[id^="dir-tab-"]').forEach(function(b){b.style.color='var(--gray-400)';b.style.borderBottomColor='transparent';});
+  var panel=document.getElementById('dir-panel-'+tab);
+  if(panel) panel.style.display='';
+  var btn=document.getElementById('dir-tab-'+tab);
+  if(btn){btn.style.color='var(--gold)';btn.style.borderBottomColor='var(--gold)';}
+  dirFilter();
+}
+function dirFilter() {
+  var inp=document.getElementById('dir-search');
+  var q=inp?inp.value.toLowerCase().trim():'';
+  var panels=document.querySelectorAll('[id^="dir-panel-"]');
+  if(q){
+    panels.forEach(function(p){p.style.display='';});
+    document.querySelectorAll('[id^="dir-tab-"]').forEach(function(b){b.style.color='var(--gray-400)';b.style.borderBottomColor='transparent';});
+  }
+  document.querySelectorAll('.dir-row').forEach(function(row){
+    var match=!q||row.dataset.name.includes(q)||row.dataset.title.includes(q);
+    row.style.display=match?'':'none';
+  });
+  if(q){
+    panels.forEach(function(p){
+      var vis=Array.from(p.querySelectorAll('.dir-row')).filter(function(r){return r.style.display!=='none';}).length;
+      p.style.display=vis?'':'none';
+    });
+  }
+}
 </script>
 </body>
 </html>
